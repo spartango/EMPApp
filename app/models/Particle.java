@@ -2,6 +2,7 @@ package models;
 
 import javax.annotation.Nullable;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.URL;
@@ -14,6 +15,8 @@ public @Entity class Particle extends Model {
      * 
      */
     private static final long                 serialVersionUID = 7685366821808050763L;
+    @Id public Long                           id;
+
     public @URL String                        s3Url;
     public @ManyToOne Pipeline                pipeline;
     public @Nullable @ManyToOne ParticleClass classification;
@@ -30,5 +33,8 @@ public @Entity class Particle extends Model {
         this.pipeline = pipeline;
         this.classification = classification;
     }
+
+    public static Model.Finder<Long, Particle> find = new Finder<Long, Particle>(Long.class,
+                                                                                 Particle.class);
 
 }

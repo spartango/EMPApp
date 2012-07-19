@@ -1,12 +1,12 @@
 <classpath>
   <classpathentry output=".target" path="app" kind="src"></classpathentry>
   <classpathentry output=".target" path="test" kind="src"></classpathentry>
-  <classpathentry path="/Users/spartango/Developer/EMPApp/target/scala-2.9.1/classes_managed" kind="lib"></classpathentry>
+  <classpathentry path="/Users/spartango/.Developer/EMPApp/target/scala-2.9.1/classes_managed" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/play/play_2.9.1/2.0.2/jars/play_2.9.1.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/play/templates_2.9.1/2.0.2/jars/templates_2.9.1.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/repository/local/com.github.scala-incubator.io/scala-io-file_2.9.1/0.4.0/jars/scala-io-file_2.9.1.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/repository/local/com.github.scala-incubator.io/scala-io-core_2.9.1/0.4.0/jars/scala-io-core_2.9.1.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/repository/local/com.github.jsuereth.scala-arm/scala-arm_2.9.1/1.1/jars/scala-arm_2.9.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/com.github.scala-incubator.io/scala-io-file_2.9.1/0.4.0/jars/scala-io-file_2.9.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/com.github.scala-incubator.io/scala-io-core_2.9.1/0.4.0/jars/scala-io-core_2.9.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/com.github.jsuereth.scala-arm/scala-arm_2.9.1/1.1/jars/scala-arm_2.9.1.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/com.typesafe.akka/akka-actor/2.0.2/jars/akka-actor.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/play/anorm_2.9.1/2.0.2/jars/anorm_2.9.1.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/io.netty/netty/3.3.0.Final/bundles/netty.jar" kind="lib"></classpathentry>
@@ -35,7 +35,6 @@
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/commons-lang/commons-lang/2.6/jars/commons-lang.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/com.ning/async-http-client/1.7.0/jars/async-http-client.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/oauth.signpost/signpost-core/1.2.1.1/jars/signpost-core.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/commons-codec/commons-codec/1.3/jars/commons-codec.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/com.codahale/jerkson_2.9.1/0.5.0/jars/jerkson_2.9.1.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.codehaus.jackson/jackson-core-asl/1.9.7/jars/jackson-core-asl.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.codehaus.jackson/jackson-mapper-asl/1.9.7/jars/jackson-mapper-asl.jar" kind="lib"></classpathentry>
@@ -45,7 +44,14 @@
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/tyrex/tyrex/1.0.1/jars/tyrex.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/jaxen/jaxen/1.1.3/jars/jaxen.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/net.sf.ehcache/ehcache-core/2.5.0/jars/ehcache-core.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/play/play-test_2.9.1/2.0.2/jars/play-test_2.9.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/be.objectify/deadbolt-2_2.9.1/jars/deadbolt-2_2.9.1-1.1.3-SNAPSHOT.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/com.feth/play-authenticate_2.9.1/jars/play-authenticate_2.9.1-0.1.9-SNAPSHOT.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.2.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.2.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/commons-logging/commons-logging/1.1.1/jars/commons-logging.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/commons-codec/commons-codec/jars/commons-codec-1.6.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/com.feth/play-easymail_2.9.1/jars/play-easymail_2.9.1-0.1-SNAPSHOT.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/com.typesafe/play-plugins-mailer_2.9.1/jars/play-plugins-mailer_2.9.1-2.0.4.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.specs2/specs2_2.9.1/1.9/jars/specs2_2.9.1.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.specs2/specs2-scalaz-core_2.9.1/6.0.1/jars/specs2-scalaz-core_2.9.1.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/com.novocode/junit-interface/0.8/jars/junit-interface.jar" kind="lib"></classpathentry>
@@ -59,10 +65,6 @@
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/cglib/cglib-nodep/2.1_3/jars/cglib-nodep.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.json/json/20080701/jars/json.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.seleniumhq.selenium/selenium-api/2.16.1/jars/selenium-api.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.apache.httpcomponents/httpclient/4.1.2/jars/httpclient.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.apache.httpcomponents/httpcore/4.1.3/jars/httpcore.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/commons-logging/commons-logging/1.1.1/jars/commons-logging.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/commons-codec/commons-codec/1.4/jars/commons-codec.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.apache.commons/commons-exec/1.1/jars/commons-exec.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/net.java.dev.jna/jna/3.4.0/jars/jna.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/net.java.dev.jna/platform/3.4.0/jars/platform.jar" kind="lib"></classpathentry>
@@ -86,6 +88,16 @@
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.seleniumhq.selenium/selenium-support/2.16.1/jars/selenium-support.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.easytesting/fest-assert/1.4/jars/fest-assert.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/org.easytesting/fest-util/1.1.6/jars/fest-util.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/org.apache.commons/commons-email/jars/commons-email-1.2.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/javax.mail/mail/jars/mail-1.4.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/javax.activation/activation/jars/activation-1.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/com.typesafe/play-plugins-util_2.9.1/jars/play-plugins-util_2.9.1-2.0.3.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/org.ow2.spec.ee/ow2-atinject-1.0-spec/bundles/ow2-atinject-1.0-spec-1.0.10.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/com.cedarsoft/guice-annotations/jars/guice-annotations-2.0.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/com.intellij/annotations/jars/annotations-7.0.3.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/org.mindrot/jbcrypt/jars/jbcrypt-0.3m.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/cache/postgresql/postgresql/jars/postgresql-9.1-901.jdbc4.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/play/play-test_2.9.1/2.0.2/jars/play-test_2.9.1.jar" kind="lib"></classpathentry>
   <classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"></classpathentry>
   <classpathentry path="bin" kind="output"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/sbt/boot/scala-2.9.1/lib/scala-library.jar" kind="lib"></classpathentry>

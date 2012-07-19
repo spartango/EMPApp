@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,7 +19,7 @@ public @Entity class Project extends Model {
      * 
      */
     private static final long                                                         serialVersionUID = -5522690761426776041L;
-
+    @Id public Long                                                                   id;
     public String                                                                     name;
     public @Lob String                                                                description;
     public @ManyToOne User                                                            owner;
@@ -36,5 +37,8 @@ public @Entity class Project extends Model {
         this.pipelines = new ArrayList<>();
 
     }
+
+    public static Model.Finder<Long, Project> find = new Finder<Long, Project>(Long.class,
+                                                                               Project.class);
 
 }
