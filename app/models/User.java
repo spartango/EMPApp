@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -40,28 +41,30 @@ public @Entity @Table(name = "users") class User extends Model implements
      * s
      * 
      */
-    private static final long                                        serialVersionUID = 1L;
+    private static final long                                                      serialVersionUID = 1L;
 
-    @Id public Long                                                  id;
+    @Id public Long                                                                id;
 
-    @Email public String                                             email;
+    @Email public String                                                           email;
 
-    public String                                                    name;
+    public String                                                                  name;
 
-    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss") public Date   lastLogin;
+    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss") public Date                 lastLogin;
 
-    public boolean                                                   active;
+    public boolean                                                                 active;
 
-    public boolean                                                   emailValidated;
+    public boolean                                                                 emailValidated;
 
-    @ManyToMany public List<SecurityRole>                            roles;
+    @ManyToMany public List<SecurityRole>                                          roles;
 
-    @OneToMany(cascade = CascadeType.ALL) public List<LinkedAccount> linkedAccounts;
+    @OneToMany(cascade = CascadeType.ALL) public List<LinkedAccount>               linkedAccounts;
 
-    @ManyToMany public List<UserPermission>                          permissions;
+    @ManyToMany public List<UserPermission>                                        permissions;
 
-    public static final Finder<Long, User>                           find             = new Finder<Long, User>(Long.class,
-                                                                                                               User.class);
+    public @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL) List<Project> projects;
+
+    public static final Finder<Long, User>                                         find             = new Finder<Long, User>(Long.class,
+                                                                                                                             User.class);
 
     @Override public List<? extends Role> getRoles() {
         return roles;
@@ -126,11 +129,13 @@ public @Entity @Table(name = "users") class User extends Model implements
     public static User create(final AuthUser authUser) {
         final User user = new User();
         user.roles = Collections.singletonList(SecurityRole.findByRoleName(controllers.Application.USER_ROLE));
+
         // user.permissions = new ArrayList<UserPermission>();
         // user.permissions.add(UserPermission.findByValue("printers.edit"));
         user.active = true;
         user.lastLogin = new Date();
         user.linkedAccounts = Collections.singletonList(LinkedAccount.create(authUser));
+        user.projects = new ArrayList<Project>();
 
         if (authUser instanceof EmailIdentity) {
             final EmailIdentity identity = (EmailIdentity) authUser;

@@ -1,10 +1,14 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import play.db.ebean.Model;
 
@@ -13,19 +17,24 @@ public @Entity class Project extends Model {
     /**
      * 
      */
-    private static final long serialVersionUID = -5522690761426776041L;
+    private static final long                                                         serialVersionUID = -5522690761426776041L;
 
-    public String             name;
-    public @Lob String        description;
-    public @ManyToOne User    owner;
-    public Date               created;
+    public String                                                                     name;
+    public @Lob String                                                                description;
+    public @ManyToOne User                                                            owner;
+    public Date                                                                       created;
+    public @OneToMany(mappedBy = "project", cascade = CascadeType.ALL) List<Image>    images;
+    public @OneToMany(mappedBy = "project", cascade = CascadeType.ALL) List<Pipeline> pipelines;
 
     public Project(String name, String description, User owner) {
         super();
         this.name = name;
         this.description = description;
         this.owner = owner;
-        created = new Date();
+        this.created = new Date();
+        this.images = new ArrayList<>();
+        this.pipelines = new ArrayList<>();
+
     }
 
 }
