@@ -12,7 +12,14 @@
   </div>
     
   <div id="login" class="row">
-
+    <div class="span3">
+      <h6> With </h6>
+      @* Display list of available providers *@
+      @_providerPartial(skipCurrent=false)
+    </div>
+    <br/>
+    <h6> Or </h6>
+    <br/>
     <div class="span3">
       @* Display proprietary login form *@
     	@helper.form(routes.Application.doLogin) {
@@ -38,11 +45,7 @@
     	}
     </div>
 
-    <div class="span3">
-      @Messages("playauthenticate.login.oauth")
-      @* Display list of available providers *@
-      @_providerPartial(skipCurrent=false)
-    </div>
+
 
   </div>
 

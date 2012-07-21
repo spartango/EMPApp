@@ -1,0 +1,14 @@
+@(projects: List[models.Project])
+
+@import be.objectify.deadbolt.Deadbolt
+
+@main("EMPApp: Active Projects", "projects") {
+    <h1>Projects</h1>
+    <div id="notifications">
+    </div>
+    <div id="projectlist">
+        @for(p <- projects) {
+            @projectInfo(p)
+        }
+    </div>
+}

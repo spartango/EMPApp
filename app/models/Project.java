@@ -38,6 +38,12 @@ public @Entity class Project extends Model {
 
     }
 
+    public String getStatus() {
+        int pipelineCount = pipelines.size();
+        // TODO more detailed status
+        return  pipelineCount + " pipeline" + (pipelineCount != 1 ? "s" : "");
+    }
+
     public static Model.Finder<Long, Project> find = new Finder<Long, Project>(Long.class,
                                                                                Project.class);
 

@@ -4,7 +4,6 @@
 
 # Home page
 GET     /                           controllers.Application.index
-GET     /restricted                 controllers.Application.restricted
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 
 GET     /profile                    controllers.Application.profile
@@ -42,6 +41,22 @@ POST    /accounts/merge             controllers.Account.doMerge
 
 GET     /login/password/forgot     controllers.Signup.forgotPassword(email: String ?= "")
 POST    /login/password/forgot     controllers.Signup.doForgotPassword
+
+# Show all Projects
+GET     /project/overview          controllers.Project.overview
+
+# Create a Project
+GET     /project/create            controllers.Project.create
+POST    /project/doCreate          controllers.Project.doCreate
+
+# Get info on a particular project
+GET     /project/:id/describe      controllers.Project.describe(id: Long)
+
+# Show all the pipelines in a project
+GET     /project/:id/pipelines     controllers.Project.pipelines(id: Long)
+
+# Images in a Project
+GET     /project/:id/images        controllers.Project.images(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

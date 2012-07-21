@@ -1,0 +1,13 @@
+@(project: models.Project)
+
+<div class="row breadcrumb">
+    <div class="span3"> 
+        <h4>project.getName()</h4> 
+    </div>
+    <div class="span3">
+        <h6>project.getStatus()</h6>
+    </div>
+    <div class="span3">
+        <a href=@routes.Project.pipelines(project.getId())>&rarr;</a>
+    </div>
+</div>
