@@ -1,12 +1,17 @@
 package controllers;
 
 import models.User;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.project.create;
+import views.html.project.overview;
 import be.objectify.deadbolt.actions.Restrict;
-import views.html.project.*;
+import forms.ProjectParams;
 
 public class Project extends Controller {
+
+    final static Form<ProjectParams> projectForm = form(ProjectParams.class);
 
     public static @Restrict(Application.USER_ROLE) Result overview() {
         final User user = Application.getLocalUser(session());
@@ -15,12 +20,24 @@ public class Project extends Controller {
 
     public static @Restrict(Application.USER_ROLE) Result doCreate() {
         final User user = Application.getLocalUser(session());
-        return ok();
+        Form<ProjectParams> filledForm = projectForm.bindFromRequest();
+
+        if (filledForm.hasErrors()) {
+            return badRequest(create.render(filledForm));
+        } else {
+            ProjectParams created = filledForm.get();
+            // Add a new project from the params
+            models.Project newProject = new models.Project(created.getName(),
+                                                           created.getDescription(),
+                                                           user);
+            newProject.save();
+            return ok(overview.render(user.getProjects()));
+        }
     }
 
     public static @Restrict(Application.USER_ROLE) Result create() {
         final User user = Application.getLocalUser(session());
-        return ok(create.render());
+        return ok(create.render(projectForm));
     }
 
     public static @Restrict(Application.USER_ROLE) Result describe(Long id) {

@@ -1,12 +1,12 @@
 <classpath>
   <classpathentry output=".target" path="app" kind="src"></classpathentry>
   <classpathentry output=".target" path="test" kind="src"></classpathentry>
-  <classpathentry path="/Users/spartango/.Developer/EMPApp/target/scala-2.9.1/classes_managed" kind="lib"></classpathentry>
+  <classpathentry path="/Users/spartango/Developer/EMPApp/target/scala-2.9.1/classes_managed" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/play/play_2.9.1/2.0.2/jars/play_2.9.1.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/play/templates_2.9.1/2.0.2/jars/templates_2.9.1.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/com.github.scala-incubator.io/scala-io-file_2.9.1/0.4.0/jars/scala-io-file_2.9.1.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/com.github.scala-incubator.io/scala-io-core_2.9.1/0.4.0/jars/scala-io-core_2.9.1.jar" kind="lib"></classpathentry>
-  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/com.github.jsuereth.scala-arm/scala-arm_2.9.1/1.1/jars/scala-arm_2.9.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/repository/local/com.github.scala-incubator.io/scala-io-file_2.9.1/0.4.0/jars/scala-io-file_2.9.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/repository/local/com.github.scala-incubator.io/scala-io-core_2.9.1/0.4.0/jars/scala-io-core_2.9.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/repository/local/com.github.jsuereth.scala-arm/scala-arm_2.9.1/1.1/jars/scala-arm_2.9.1.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/com.typesafe.akka/akka-actor/2.0.2/jars/akka-actor.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/play/anorm_2.9.1/2.0.2/jars/anorm_2.9.1.jar" kind="lib"></classpathentry>
   <classpathentry path="/usr/local/bin/../Cellar/play/2.0.2/bin/../libexec/framework/../repository/local/io.netty/netty/3.3.0.Final/bundles/netty.jar" kind="lib"></classpathentry>

@@ -1,14 +1,44 @@
+@(projectForm: Form[forms.ProjectParams])
+
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Create Project", "newproject") {
     <h1>Start a New Project</h1>
-    <div id="projectform">
+    @helper.form(action = routes.Project.doCreate(), 'class -> "form") {
+        <div id="projectform">
+            <input type="text" class="span3" id="name" name="name" placeholder="Project Name"> 
+            <br>
+            <textarea class="span6" id="description" name="description" rows="8" placeholder="Project Description..."></textarea>        
+        </div>
+        <br>
+        <h3>What's Next</h3>
+        <br>
+        <div id="aboutproject" class="row">
+            <div class="span6">
+                <p>
+                In this project, you'll go through a series of steps to extract and process single particles from your raw micrographs. 
+                By the end, you should have a set of aligned and classified particles.
+                </p>
+                <p> 
+                First, you'll upload a series raw micrographs. 
+                These micrographs will be the fodder for the processing steps that follow, and can be processed any number of times.
+                </p>
+                <p>
+                Next, you'll plan out the processing pipeline, setting the options for a series of filtering and classification steps. 
+                We'll guide you through this process to make it as painless as possible. 
+                </p>
+                <p>
+                Finally, you'll start your processing pipeline, sending it for massively parallel execution in the cloud. 
+                After the pipeline is submitted, you'll be able to track it's progress, all the way until it's finished. 
+                </p>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div id="nextstep" align="center" class="span6">
+                <button type="submit" class="btn btn-primary btn-large">Start Planning Processing</button>
+            </div>
+        <div>
 
-    </div>
-    <div id="aboutproject">
-
-    </div>
-    <div id="nextstep">
-        
-    </div>
+    }
 }
