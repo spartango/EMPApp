@@ -3,10 +3,13 @@
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Active Projects", "projects") {
+    <script src="@routes.Assets.at("js/project/overview.js")"></script>
+
+
     <h1>Projects</h1>
     <div id="notifications">
     </div>
-    <div id="projectlist">
+    <div id="projectlist" class="span8">
         @for(p <- projects) {
             @projectInfo(p)
         }

@@ -1,13 +1,17 @@
 @(project: models.Project)
 
-<div class="row breadcrumb">
-    <div class="span3"> 
-        <h4>project.getName()</h4> 
+<div id=@("project_"+project.id) class="row breadcrumb" onclick=foldDescription(@project.id)>
+    <a href=@routes.Project.pipelines(project.id)><i class="icon-chevron-right go-icon" style="float: right"></i></a>
+    <div id=@("project_"+project.id+"_name") class="span3"> 
+        <h4>@project.getName()</h4> 
     </div>
-    <div class="span3">
-        <h6>project.getStatus()</h6>
+    <div id=@("project_"+project.id+"_status") class="span3">
+        <h6>@project.getStatus()</h6>
     </div>
-    <div class="span1">
-        <a href=@routes.Project.pipelines(project.id)><i class="icon-chevron-right"></i></a>
+
+</div>
+<div id=@("project_"+project.id+"_desc") class="row" style="display: none">
+    <div class="span7 well">
+        @project.getDescription()
     </div>
 </div>
