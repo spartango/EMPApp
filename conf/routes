@@ -58,5 +58,11 @@ GET     /project/:id/pipelines     controllers.Project.pipelines(id: Long)
 # Images in a Project
 GET     /project/:id/images        controllers.Project.images(id: Long)
 
+# Create a Pipeline
+GET     /project/:projectId/createPipeline     controllers.Pipeline.create(projectId: Long)
+
+# Go to the latest stage in a pipeline
+GET     /pipeline/:id              controllers.Pipeline.resume(id: Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -35,7 +35,6 @@ public class Project extends Controller {
     }
 
     public static @Restrict(Application.USER_ROLE) Result create() {
-        final User user = Application.getLocalUser(session());
         return ok(create.render(projectForm));
     }
 
@@ -47,7 +46,14 @@ public class Project extends Controller {
     public static @Restrict(Application.USER_ROLE) Result pipelines(Long id) {
         final User user = Application.getLocalUser(session());
         models.Project thisProject = models.Project.findById(id);
-        return ok(pipelines.render(thisProject));
+        // Ensure existence & that permissions are ok
+        if(thisProject == null) {
+            return notFound();
+        } else if(thisProject.getOwner().id == user.id) {
+            return ok(pipelines.render(thisProject));
+        } else {
+            return unauthorized();
+        }
     }
 
     public static @Restrict(Application.USER_ROLE) Result images(Long id) {

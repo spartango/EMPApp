@@ -84,5 +84,4 @@ public @Entity class Project extends Model {
     public static Project findById(Long id) {
         return find.byId(id);
     }
-
 }
