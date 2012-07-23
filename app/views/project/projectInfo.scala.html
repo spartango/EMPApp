@@ -1,7 +1,7 @@
 @(project: models.Project)
 
 <div id=@("project_"+project.id) class="row breadcrumb" onclick=foldDescription(@project.id)>
-    <a href=@routes.Project.pipelines(project.id)><i class="icon-chevron-right go-icon" style="float: right"></i></a>
+    <a href=@routes.Project.pipelines(project.id)><i class="icon-chevron-right" style="float: right"></i></a>
     <div id=@("project_"+project.id+"_name") class="span3"> 
         <h4>@project.getName()</h4> 
     </div>

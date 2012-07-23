@@ -4,8 +4,7 @@ import models.User;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.project.create;
-import views.html.project.overview;
+import views.html.project.*;
 import be.objectify.deadbolt.actions.Restrict;
 import forms.ProjectParams;
 
@@ -31,7 +30,7 @@ public class Project extends Controller {
                                                            created.getDescription(),
                                                            user);
             newProject.save();
-            return ok(overview.render(user.getProjects()));
+            return ok(pipelines.render(newProject));
         }
     }
 
@@ -47,7 +46,8 @@ public class Project extends Controller {
 
     public static @Restrict(Application.USER_ROLE) Result pipelines(Long id) {
         final User user = Application.getLocalUser(session());
-        return ok();
+        models.Project thisProject = models.Project.findById(id);
+        return ok(pipelines.render(thisProject));
     }
 
     public static @Restrict(Application.USER_ROLE) Result images(Long id) {

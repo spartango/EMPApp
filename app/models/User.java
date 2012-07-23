@@ -74,6 +74,14 @@ public @Entity @Table(name = "users") class User extends Model implements
         return permissions;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
     public static boolean
             existsByAuthUserIdentity(final AuthUserIdentity identity) {
         final ExpressionList<User> exp;
