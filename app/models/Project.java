@@ -84,4 +84,17 @@ public @Entity class Project extends Model {
     public static Project findById(Long id) {
         return find.byId(id);
     }
+
+    public static Project findByIdWithOwner(Long id, User owner) {
+        Project found = findById(id);
+        if (found != null && hasAccess(owner, found)) {
+            return found;
+        } else
+            return null;
+
+    }
+
+    public static boolean hasAccess(User user, Project project) {
+        return user.id == project.owner.id;
+    }
 }

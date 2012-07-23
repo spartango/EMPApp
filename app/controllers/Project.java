@@ -45,14 +45,11 @@ public class Project extends Controller {
 
     public static @Restrict(Application.USER_ROLE) Result pipelines(Long id) {
         final User user = Application.getLocalUser(session());
-        models.Project thisProject = models.Project.findById(id);
-        // Ensure existence & that permissions are ok
+        models.Project thisProject = models.Project.findByIdWithOwner(id, user);
         if(thisProject == null) {
             return notFound();
-        } else if(thisProject.getOwner().id == user.id) {
-            return ok(pipelines.render(thisProject));
         } else {
-            return unauthorized();
+            return ok(pipelines.render(thisProject));
         }
     }
 

@@ -11,10 +11,10 @@
     }
     <div id="pipelinelist" class="span8">
         @for( p <- project.getPipelines()) {
-            pipelineInfo(p)
+            @pipelineInfo(p)
         }
         <div id="newPipeline" class="row">
-            <a href="">
+            <a href=@routes.Pipeline.create(project.id)>
                 <div class="span3 offset2 btn btn-primary btn-large"><i class="icon-plus icon-white"></i> Create a Pipeline</div>
             </a>
         </div>

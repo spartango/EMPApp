@@ -37,6 +37,8 @@ create table particle_class (
 create table pipeline (
   id                        bigint not null,
   project_id                bigint,
+  status                    bigint,
+  created                   timestamp,
   constraint pk_pipeline primary key (id))
 ;
 
