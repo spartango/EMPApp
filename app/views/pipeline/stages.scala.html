@@ -1,0 +1,42 @@
+@(stage: Long, pipelineId: Long)(content: Html)
+
+<ul class="breadcrumb">
+        <li @if(stage == 0) {class="active"} >
+            <a href=@routes.Pipeline.selectImages(pipelineId)>Select Images</a> 
+            <span class="divider">&rarr;</span>
+        </li>
+        <li @if(stage == 1) {class="active"} >
+            @if(stage > 0) {
+                <a href=@routes.Pipeline.filter(pipelineId)>Filter</a> 
+            } else {
+                Filter
+            }
+            <span class="divider">&rarr;</span>
+        </li>
+        <li @if(stage == 2) {class="active"} >
+            @if(stage > 1) {
+                <a href=@routes.Pipeline.rotate(pipelineId)>Generate Rotations</a> 
+            } else {
+                Generate Rotation
+            }
+            <span class="divider">&rarr;</span>
+        </li>
+        <li @if(stage == 3) {class="active"} >
+            @if(stage > 2) {
+                <a href=@routes.Pipeline.classify(pipelineId)>Classify</a>
+            } else {
+                Classify
+            }
+            <span class="divider">&rarr;</span>
+        </li>
+        <li @if(stage == 4) {class="active"} >
+            @if(stage > 3) {
+                <a href=@routes.Pipeline.startRun(pipelineId)>Run</a>
+            } else {
+                Run
+            }
+        </li>
+</ul>
+
+
+@content

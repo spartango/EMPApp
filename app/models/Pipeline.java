@@ -51,6 +51,14 @@ public @Entity class Pipeline extends Model {
         return created;
     }
 
+    public Long getStatus() {
+        return status;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
     public String getStatusString() {
             if(status == SELECT_IMAGES)
                 return "Selecting Images";
@@ -78,7 +86,7 @@ public @Entity class Pipeline extends Model {
 
     public static Pipeline findByIdWithOwner(Long id, User owner) {
         Pipeline found = findById(id);
-        if (found != null && Project.hasAccess(owner, found.project)) {
+        if (found != null && Project.hasAccess(owner, found.getProject())) {
             return found;
         } else
             return null;

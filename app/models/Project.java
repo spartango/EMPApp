@@ -95,6 +95,6 @@ public @Entity class Project extends Model {
     }
 
     public static boolean hasAccess(User user, Project project) {
-        return user.id == project.owner.id;
+        return user.getId().equals(project.getOwner().getId());
     }
 }

@@ -4,7 +4,7 @@
     <div id=@("pipeline_"+pipeline.id) class="row breadcrumb">
         <i class="icon-chevron-right go-icon" style="float: right"></i>
         <div id=@("pipeline_"+pipeline.id+"_name") class="span3"> 
-            <h4>Pipeline <span class="badge badge-info">@pipeline.getCreated().format("MM/dd/yy")</span> </h4>
+            <h4>Pipeline @pipeline.id <span class="badge badge-info">@pipeline.getCreated().format("MM/dd/yy")</span> </h4>
         </div>
         <div id=@("pipeline_"+pipeline.id+"_status") class="span3">
             <h6>@pipeline.getStatusString()</h6>

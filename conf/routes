@@ -64,5 +64,16 @@ GET     /project/:projectId/createPipeline     controllers.Pipeline.create(proje
 # Go to the latest stage in a pipeline
 GET     /pipeline/:id              controllers.Pipeline.resume(id: Long)
 
+GET     /pipeline/:id/selectImages      controllers.Pipeline.selectImages(id: Long)
+
+GET     /pipeline/:id/filter       controllers.Pipeline.filter(id: Long)
+
+GET     /pipeline/:id/rotate       controllers.Pipeline.rotate(id: Long)
+
+GET     /pipeline/:id/classify     controllers.Pipeline.classify(id: Long)
+
+GET     /pipeline/:id/startRun     controllers.Pipeline.startRun(id: Long)
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
