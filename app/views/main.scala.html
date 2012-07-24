@@ -34,6 +34,12 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+                //$("body").css("display", "none");
+                $("#container").fadeIn('fast');
+        });
+    </script>
   </head>
 
   <body>
@@ -83,7 +89,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div id="container" class="container" style="display: none">
 	    @if(flash.contains(Application.FLASH_ERROR_KEY)) {
 	      <div class="alert alert-error">
 	      	@flash().get(Application.FLASH_ERROR_KEY)

@@ -16,13 +16,14 @@ public @Entity class Pipeline extends Model {
 
     // Pipeline status information
     public static final long                                                                SELECT_IMAGES     = 0;
-    public static final long                                                                CONFIG_FILTERS    = 1;
-    public static final long                                                                CONFIG_GENERATION = 2;
-    public static final long                                                                CONFIG_CLASSIFIER = 3;
-    public static final long                                                                START_RUN         = 4;
-    public static final long                                                                RUNNING           = 5;
-    public static final long                                                                COMPLETE          = 6;
-    public static final long                                                                ERROR             = 7;
+    public static final long                                                                CONFIG_PICKER     = 1;
+    public static final long                                                                CONFIG_FILTERS    = 2;
+    public static final long                                                                CONFIG_GENERATION = 3;
+    public static final long                                                                CONFIG_CLASSIFIER = 4;
+    public static final long                                                                START_RUN         = 5;
+    public static final long                                                                RUNNING           = 6;
+    public static final long                                                                COMPLETE          = 7;
+    public static final long                                                                ERROR             = 8;
 
     /**
      * 
@@ -46,6 +47,10 @@ public @Entity class Pipeline extends Model {
 
     public static Model.Finder<Long, Pipeline> find = new Finder<Long, Pipeline>(Long.class,
                                                                                  Pipeline.class);
+
+    public Long getId() {
+        return id;
+    }
 
     public Date getCreated() {
         return created;

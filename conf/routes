@@ -57,6 +57,7 @@ GET     /project/:id/pipelines     controllers.Project.pipelines(id: Long)
 
 # Images in a Project
 GET     /project/:id/images        controllers.Project.images(id: Long)
+POST    /project/:id/uploadImage   controllers.Project.uploadImage(id: Long)
 
 # Create a Pipeline
 GET     /project/:projectId/createPipeline     controllers.Pipeline.create(projectId: Long)
@@ -65,6 +66,9 @@ GET     /project/:projectId/createPipeline     controllers.Pipeline.create(proje
 GET     /pipeline/:id              controllers.Pipeline.resume(id: Long)
 
 GET     /pipeline/:id/selectImages      controllers.Pipeline.selectImages(id: Long)
+POST    /pipeline/:id/doSelectImages    controllers.Pipeline.doSelectImages(id: Long)
+
+GET     /pipeline/:id/pick         controllers.Pipeline.pickParticles(id: Long)
 
 GET     /pipeline/:id/filter       controllers.Pipeline.filter(id: Long)
 

@@ -1,0 +1,10 @@
+@(pipeline: models.Pipeline)
+
+@import be.objectify.deadbolt.Deadbolt
+
+@main("EMPApp: Start Pipeline") {
+    @stages(pipeline) {
+        <h1>Start Pipeline</h1>
+
+    }
+}

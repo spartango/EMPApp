@@ -29,36 +29,118 @@ public class Pipeline extends Controller {
         // Get the pipeline
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);
         if(pipeline != null) {
-            // Make a new pipeline
-            // Send the user to the image upload screen
+            // Figure out what state we were in
+                if(pipeline.getStatus() == models.Pipeline.SELECT_IMAGES)
+                    return ok(imageSelect.render(pipeline));
+                else if(pipeline.getStatus() == models.Pipeline.CONFIG_FILTERS)
+                    return ok(filter.render(pipeline));
+                else if(pipeline.getStatus() == models.Pipeline.CONFIG_GENERATION)
+                    return ok(rotate.render(pipeline));
+                else if(pipeline.getStatus() == models.Pipeline.CONFIG_CLASSIFIER)
+                    return ok(classify.render(pipeline));
+                else if(pipeline.getStatus() == models.Pipeline.START_RUN)
+                    return ok(startRun.render(pipeline));
+                else if(pipeline.getStatus() == models.Pipeline.RUNNING)
+                    return ok(status.render(pipeline));
+                else if(pipeline.getStatus() == models.Pipeline.COMPLETE)
+                    return ok(results.render(pipeline));
+                else if(pipeline.getStatus() == models.Pipeline.ERROR)
+                    return ok(error.render(pipeline));
+                else 
+                    return notFound();
+            // Render the right page for that state.
+        } else {
+            return badRequest();
+        }
+
+    }
+
+    public static @Restrict(Application.USER_ROLE) Result selectImages(Long id) {
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.SELECT_IMAGES) {
             return ok(imageSelect.render(pipeline));
         } else {
             return badRequest();
         }
-        // Figure out what state we were in
-        // Render the right page for that state.
     }
 
-    public static @Restrict(Application.USER_ROLE) Result selectImages(Long id) {
-        return ok();
+    public static @Restrict(Application.USER_ROLE) Result pickParticles(Long id) {
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);        
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.CONFIG_PICKER) {
+            return ok(picker.render(pipeline));
+        } else {
+            return badRequest();
+        }
     }
 
     public static @Restrict(Application.USER_ROLE) Result filter(Long id) {
-        return ok();
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);        
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.CONFIG_FILTERS) {
+            return ok(filter.render(pipeline));
+        } else {
+            return badRequest();
+        }
     }
 
     public static @Restrict(Application.USER_ROLE) Result rotate(Long id) {
-        return ok();
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.CONFIG_GENERATION) {
+            return ok(rotate.render(pipeline));
+        } else {
+            return badRequest();
+        }
     }
 
     public static @Restrict(Application.USER_ROLE) Result classify(Long id) {
-        return ok();
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.CONFIG_CLASSIFIER) {
+            return ok(classify.render(pipeline));
+        } else {
+            return badRequest();
+        }
     }
 
     public static @Restrict(Application.USER_ROLE) Result startRun(Long id) {
-        return ok();
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.START_RUN) {
+            return ok(startRun.render(pipeline));
+        } else {
+            return badRequest();
+        }
     }
 
+    public static @Restrict(Application.USER_ROLE) Result status(Long id) {
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.RUNNING) {
+            return ok(status.render(pipeline));
+        } else {
+            return badRequest();
+        }
+    }
 
+    public static @Restrict(Application.USER_ROLE) Result doSelectImages(Long id) {
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.RUNNING) {
+            return ok();
+        } else {
+            return badRequest();
+        }
+    }
 
 }

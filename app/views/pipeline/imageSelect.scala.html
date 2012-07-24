@@ -3,14 +3,38 @@
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Select Images") {
-    @stages(pipeline.getStatus(), pipeline.id) {
+    @stages(pipeline) {
+        <script type="text/javascript" src="http://api.filepicker.io/v0/filepicker.js"></script>
+        <script type="text/javascript">
+            projectId = @pipeline.getProject.getId();
+        </script>
+        <script src="@routes.Assets.at("js/pipeline/upload.js")"></script>
         <h1>Select Images</h1>
-        <div id="availableImages">
-
-        </div>
-        
-        <div id="uploadImages">
-
-        <div>
+        @helper.form(action = routes.Pipeline.doSelectImages(pipeline.getId()), 'class -> "form") {
+            <div id="availableImages" class="span8"> 
+                <h2> Available Images </h2>
+                @for(image <- pipeline.getProject().getImages()) {
+                    <div class="row">
+                    <span class="span6 breadcrumb">
+                        <label class="checkbox">
+                            <input name="existingImages" type="checkbox" value=@image.getUrl()> @image.getName() <span class="badge badge-info" style="float: right">@image.getUploaded().format("MM/dd/yy")</span>
+                        </label>
+                    </span>
+                    </div>
+                }
+                <div id="uploadImages" class="row">
+                    <p>
+                    <div onclick="uploadImages()" class="span3 btn btn-success btn-large"><i class="icon-arrow-up icon-white"></i> Upload Images</div>
+                    </p>
+                    <p>
+                    <button type="submit" class="span3 btn btn-primary btn-large">Plan Particle Picking</button>
+                    </p>
+                </div>
+            <div>
+            <br/>
+            <br/>
+            <div id="next" class="row">
+            </div>
+        }   
     }
 }

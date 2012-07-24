@@ -1,37 +1,49 @@
-@(stage: Long, pipelineId: Long)(content: Html)
+@(pipeline: models.Pipeline)(content: Html)
 
 <ul class="breadcrumb">
-        <li @if(stage == 0) {class="active"} >
-            <a href=@routes.Pipeline.selectImages(pipelineId)>Select Images</a> 
+        <li>
+            <a href=@routes.Project.pipelines(pipeline.getProject().getId())>@pipeline.getProject().getName()</a> 
             <span class="divider">&rarr;</span>
         </li>
-        <li @if(stage == 1) {class="active"} >
-            @if(stage > 0) {
-                <a href=@routes.Pipeline.filter(pipelineId)>Filter</a> 
+        <li @if(pipeline.getStatus() == models.Pipeline.SELECT_IMAGES) {class="active"} >
+            <a href=@routes.Pipeline.selectImages(pipeline.getId())>Select Images</a> 
+            <span class="divider">&rarr;</span>
+        </li>
+        <li @if(pipeline.getStatus() == models.Pipeline.CONFIG_PICKER) {class="active"} >
+            @if(pipeline.getStatus() > models.Pipeline.CONFIG_PICKER) {
+                <a href=@routes.Pipeline.pickParticles(pipeline.getId())>Pick Particles</a> 
+            } else {
+                Pick Particles
+            }
+            <span class="divider">&rarr;</span>
+        </li>
+        <li @if(pipeline.getStatus() == models.Pipeline.CONFIG_FILTERS) {class="active"} >
+            @if(pipeline.getStatus() > models.Pipeline.CONFIG_FILTERS) {
+                <a href=@routes.Pipeline.filter(pipeline.getId())>Filter</a> 
             } else {
                 Filter
             }
             <span class="divider">&rarr;</span>
         </li>
-        <li @if(stage == 2) {class="active"} >
-            @if(stage > 1) {
-                <a href=@routes.Pipeline.rotate(pipelineId)>Generate Rotations</a> 
+        <li @if(pipeline.getStatus() == models.Pipeline.CONFIG_GENERATION) {class="active"} >
+            @if(pipeline.getStatus() > models.Pipeline.CONFIG_GENERATION) {
+                <a href=@routes.Pipeline.rotate(pipeline.getId())>Generate Rotations</a> 
             } else {
-                Generate Rotation
+                Generate Rotations
             }
             <span class="divider">&rarr;</span>
         </li>
-        <li @if(stage == 3) {class="active"} >
-            @if(stage > 2) {
-                <a href=@routes.Pipeline.classify(pipelineId)>Classify</a>
+        <li @if(pipeline.getStatus() == models.Pipeline.CONFIG_CLASSIFIER) {class="active"} >
+            @if(pipeline.getStatus() > models.Pipeline.CONFIG_CLASSIFIER) {
+                <a href=@routes.Pipeline.classify(pipeline.getId())>Classify</a>
             } else {
                 Classify
             }
             <span class="divider">&rarr;</span>
         </li>
-        <li @if(stage == 4) {class="active"} >
-            @if(stage > 3) {
-                <a href=@routes.Pipeline.startRun(pipelineId)>Run</a>
+        <li @if(pipeline.getStatus() == models.Pipeline.START_RUN) {class="active"} >
+            @if(pipeline.getStatus() > models.Pipeline.START_RUN) {
+                <a href=@routes.Pipeline.startRun(pipeline.getId())>Run</a>
             } else {
                 Run
             }

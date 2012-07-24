@@ -1,0 +1,10 @@
+@(pipeline: models.Pipeline)
+
+@import be.objectify.deadbolt.Deadbolt
+
+@main("EMPApp: Error") {
+    @stages(pipeline) {
+        <h1>Error</h1>
+
+    }
+}
