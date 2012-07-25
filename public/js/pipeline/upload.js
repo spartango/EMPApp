@@ -22,6 +22,19 @@ function uploadImages() {
                   success: function(data, textStatus, xhr) {
                     // Attach a new image line to the list
                     console.log("Registered "+data);
+                    // Append a new row to availableImages
+                    $("#availableImages").prepend(
+                        "<div class=\"row\"><span class=\"span6 breadcrumb\"><label class=\"checkbox\">"
+                        + "<input name=\"existingImages\" type=\"checkbox\" value="
+                        + data
+                        + "><a href="
+                        + file.url 
+                        + ">"
+                        + file.data.filename
+                        + "</a> <span class=\"badge badge-info\" style=\"float: right\">Just Now</span>"
+                        + "</label></span></div>"
+                    );
+
                   }
                 });
                 
