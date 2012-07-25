@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import play.db.ebean.Model;
 
@@ -27,14 +28,15 @@ public @Entity class Pipeline extends Model {
 
     /**
      * 
-     */
-    private static final long                                                               serialVersionUID  = -7980942758060990464L;
-    @Id public Long                                                                         id;
-    public @ManyToOne Project                                                               project;
-    public Long                                                                             status;
-    public Date                                                                             created;
-    public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL) List<Particle>      particles;
-    public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL) List<ParticleClass> particleClasses;
+     */ 
+    private static final long                                                                 serialVersionUID  = -7980942758060990464L;
+    @Id public Long                                                                           id;
+    public @ManyToOne Project                                                                 project;
+    public Long                                                                               status;
+    public Date                                                                               created;
+    public @ManyToMany(mappedBy = "pipelines", cascade = CascadeType.ALL) List<Image>         images;
+    public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<Particle>      particles;
+    public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<ParticleClass> particleClasses;
 
     public Pipeline(Project project) {
         super();
@@ -43,6 +45,7 @@ public @Entity class Pipeline extends Model {
         this.created = new Date();
         particleClasses = new ArrayList<>();
         particles = new ArrayList<>();
+        images = new ArrayList<>();
     }
 
     public static Model.Finder<Long, Pipeline> find = new Finder<Long, Pipeline>(Long.class,
@@ -62,6 +65,15 @@ public @Entity class Pipeline extends Model {
 
     public Project getProject() {
         return project;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void addImage(Image target) {
+        target.addPipeline(this);
+        images.add(target);
     }
 
     public String getStatusString() {

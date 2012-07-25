@@ -4,6 +4,8 @@
 
 @main("EMPApp: Select Images") {
     @stages(pipeline) {
+        <script src="@routes.Assets.at("js/lightbox.js")"></script>
+        <link href="@routes.Assets.at("css/lightbox.css")" rel="stylesheet" />
         <script type="text/javascript" src="http://api.filepicker.io/v0/filepicker.js"></script>
         <script type="text/javascript">
             projectId = @pipeline.getProject.getId();
@@ -12,12 +14,13 @@
         <h1>Select Images</h1>
         @helper.form(action = routes.Pipeline.doSelectImages(pipeline.getId()), 'class -> "form") {
             <h2> Available Images </h2>
+            <br/>
             <div id="availableImages" class="span8"> 
                 @for(image <- pipeline.getProject().getImages()) {
                     <div class="row">
                         <span class="span6 breadcrumb">
                             <label class="checkbox">
-                                <input name="existingImages" type="checkbox" value=@image.getId()><a href=@image.getUrl()>@image.getName()</a> <span class="badge badge-info" style="float: right">@image.getUploaded().format("MM/dd/yy")</span>
+                                <input name="images" type="checkbox" value=@image.getId()><a rel="lightbox" href=@image.getUrl()>@image.getName()</a> <span class="badge badge-info" style="float: right">@image.getUploaded().format("MM/dd/yy")</span>
                             </label>
                         </span>
                     </div>
