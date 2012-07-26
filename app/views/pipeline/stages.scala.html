@@ -10,7 +10,7 @@
             <span class="divider">&rarr;</span>
         </li>
         <li @if(pipeline.getStatus() == models.Pipeline.CONFIG_PICKER) {class="active"} >
-            @if(pipeline.getStatus() > models.Pipeline.CONFIG_PICKER) {
+            @if(pipeline.getStatus() >= models.Pipeline.CONFIG_PICKER) {
                 <a href=@routes.Pipeline.pickParticles(pipeline.getId())>Pick Particles</a> 
             } else {
                 Pick Particles
@@ -18,7 +18,7 @@
             <span class="divider">&rarr;</span>
         </li>
         <li @if(pipeline.getStatus() == models.Pipeline.CONFIG_FILTERS) {class="active"} >
-            @if(pipeline.getStatus() > models.Pipeline.CONFIG_FILTERS) {
+            @if(pipeline.getStatus() >= models.Pipeline.CONFIG_FILTERS) {
                 <a href=@routes.Pipeline.filter(pipeline.getId())>Filter</a> 
             } else {
                 Filter
@@ -26,7 +26,7 @@
             <span class="divider">&rarr;</span>
         </li>
         <li @if(pipeline.getStatus() == models.Pipeline.CONFIG_GENERATION) {class="active"} >
-            @if(pipeline.getStatus() > models.Pipeline.CONFIG_GENERATION) {
+            @if(pipeline.getStatus() >= models.Pipeline.CONFIG_GENERATION) {
                 <a href=@routes.Pipeline.rotate(pipeline.getId())>Generate Rotations</a> 
             } else {
                 Generate Rotations
@@ -34,7 +34,7 @@
             <span class="divider">&rarr;</span>
         </li>
         <li @if(pipeline.getStatus() == models.Pipeline.CONFIG_CLASSIFIER) {class="active"} >
-            @if(pipeline.getStatus() > models.Pipeline.CONFIG_CLASSIFIER) {
+            @if(pipeline.getStatus() >= models.Pipeline.CONFIG_CLASSIFIER) {
                 <a href=@routes.Pipeline.classify(pipeline.getId())>Classify</a>
             } else {
                 Classify
@@ -42,7 +42,7 @@
             <span class="divider">&rarr;</span>
         </li>
         <li @if(pipeline.getStatus() == models.Pipeline.START_RUN) {class="active"} >
-            @if(pipeline.getStatus() > models.Pipeline.START_RUN) {
+            @if(pipeline.getStatus() >= models.Pipeline.START_RUN) {
                 <a href=@routes.Pipeline.startRun(pipeline.getId())>Run</a>
             } else {
                 Run

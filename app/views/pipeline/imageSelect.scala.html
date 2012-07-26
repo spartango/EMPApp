@@ -20,7 +20,9 @@
                     <div class="row">
                         <span class="span6 breadcrumb">
                             <label class="checkbox">
-                                <input name="images" type="checkbox" value=@image.getId()><a rel="lightbox" href=@image.getUrl()>@image.getName()</a> <span class="badge badge-info" style="float: right">@image.getUploaded().format("MM/dd/yy")</span>
+                                <input name="images" type="checkbox" value=@image.getId() @if(pipeline.containsImage(image)) {checked} />
+                                <a rel="lightbox" href=@image.getUrl()>@image.getName()</a> 
+                                <span class="badge badge-info" style="float: right">@image.getUploaded().format("MM/dd/yy")</span>
                             </label>
                         </span>
                     </div>

@@ -149,9 +149,25 @@ public class Pipeline extends Controller {
             return badRequest();
         }
 
-        if(formData == null || !formData.containsKey("images") || formData.get("images").length == 0) {
+        if((formData == null 
+            || !formData.containsKey("images") 
+            || formData.get("images").length == 0) 
+            && pipeline.getImages().isEmpty()) {
+            Logger.error("No new images selected");
+            // We don't have preexisting images and didn't get any valid images
             return badRequest(imageSelect.render(pipeline));
-        } 
+        } else if((formData == null 
+            || !formData.containsKey("images") 
+            || formData.get("images").length == 0)
+            && !pipeline.getImages().isEmpty()) {
+            // We already have images, but didn't get any new ones.
+            // Let this slide
+            return ok(picker.render(pipeline));
+        } else if(!pipeline.getImages().isEmpty()) {
+            // New images are coming in, clear the old ones
+            pipeline.clearImages();
+        }
+
         for(String imageString : formData.get("images")){
             try {
                 Long imageId = Long.parseLong(imageString);
@@ -170,9 +186,12 @@ public class Pipeline extends Controller {
         }
 
         // OK to proceed to next step
-        // pipeline.setStatus(models.Pipeline.CONFIG_PICKER);
-        // return ok(picker.render(pipeline));
-        return ok(pipeline.getImages().toString());
+        if(pipeline.getStatus() == models.Pipeline.SELECT_IMAGES) {
+            pipeline.setStatus(models.Pipeline.CONFIG_PICKER);
+        }
+        pipeline.save();
+        return ok(picker.render(pipeline));
+        //return ok(pipeline.getImages().toString());
     }
 
 }

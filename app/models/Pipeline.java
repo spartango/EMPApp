@@ -3,6 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -34,7 +36,7 @@ public @Entity class Pipeline extends Model {
     public @ManyToOne Project                                                                 project;
     public Long                                                                               status;
     public Date                                                                               created;
-    public @ManyToMany(mappedBy = "pipelines", cascade = CascadeType.ALL) List<Image>         images;
+    public @ManyToMany(mappedBy = "pipelines", cascade = CascadeType.ALL) Set<Image>          images;
     public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<Particle>      particles;
     public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<ParticleClass> particleClasses;
 
@@ -45,7 +47,7 @@ public @Entity class Pipeline extends Model {
         this.created = new Date();
         particleClasses = new ArrayList<>();
         particles = new ArrayList<>();
-        images = new ArrayList<>();
+        images = new HashSet<>();
     }
 
     public static Model.Finder<Long, Pipeline> find = new Finder<Long, Pipeline>(Long.class,
@@ -63,22 +65,36 @@ public @Entity class Pipeline extends Model {
         return status;
     }
 
+    public void setStatus(Long newStatus) {
+        status = newStatus;
+    }
+
     public Project getProject() {
         return project;
     }
 
-    public List<Image> getImages() {
+    public Set<Image> getImages() {
         return images;
     }
 
     public void addImage(Image target) {
-        target.addPipeline(this);
+        //target.addPipeline(this);
         images.add(target);
+    }
+
+    public boolean containsImage(Image target) {
+        return images.contains(target);
+    }
+
+    public void clearImages() {
+        images.clear();
     }
 
     public String getStatusString() {
             if(status == SELECT_IMAGES)
                 return "Selecting Images";
+            else if(status == CONFIG_PICKER)
+                return "Particle Picking";
             else if(status == CONFIG_FILTERS)
                 return "Configuring Filters";
             else if(status == CONFIG_GENERATION)
