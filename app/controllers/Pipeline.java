@@ -23,7 +23,7 @@ public class Pipeline extends Controller {
             models.Pipeline newPipeline = new models.Pipeline(project);
             newPipeline.save();
             // Send the user to the image upload screen
-            return ok(imageSelect.render(newPipeline));
+            return ok(imageSelect.render(newPipeline, null));
         } else {
             return badRequest();
         }
@@ -39,7 +39,7 @@ public class Pipeline extends Controller {
         }
         // Figure out what state we were in
         if(pipeline.getStatus() == models.Pipeline.SELECT_IMAGES)
-            return ok(imageSelect.render(pipeline));
+            return ok(imageSelect.render(pipeline, null));
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_PICKER)
             return ok(picker.render(pipeline));
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_FILTERS)
@@ -66,7 +66,7 @@ public class Pipeline extends Controller {
         // Get the pipeline
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);
         if(pipeline != null && pipeline.getStatus() >= models.Pipeline.SELECT_IMAGES) {
-            return ok(imageSelect.render(pipeline));
+            return ok(imageSelect.render(pipeline, null));
         } else {
             return badRequest();
         }
@@ -78,6 +78,17 @@ public class Pipeline extends Controller {
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);        
         if(pipeline != null && pipeline.getStatus() >= models.Pipeline.CONFIG_PICKER) {
             return ok(picker.render(pipeline));
+        } else {
+            return badRequest();
+        }
+    }
+
+    public static @Restrict(Application.USER_ROLE) Result doPickParticles(Long id) {
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);        
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.CONFIG_PICKER) {
+            return ok();
         } else {
             return badRequest();
         }
@@ -155,7 +166,7 @@ public class Pipeline extends Controller {
             && pipeline.getImages().isEmpty()) {
             Logger.error("No new images selected");
             // We don't have preexisting images and didn't get any valid images
-            return badRequest(imageSelect.render(pipeline));
+            return badRequest(imageSelect.render(pipeline, "Oops! You didn't select any images."));
         } else if((formData == null 
             || !formData.containsKey("images") 
             || formData.get("images").length == 0)
@@ -177,11 +188,11 @@ public class Pipeline extends Controller {
                     pipeline.addImage(image);
                 } else {
                     Logger.error("No imageId for "+imageString);
-                    return badRequest(imageSelect.render(pipeline));
+                    return badRequest(imageSelect.render(pipeline, "Oops! Couldn't find one of the images you selected."));
                 }
             } catch (NumberFormatException e) {
                 Logger.error("No imageId for "+imageString);
-                return badRequest(imageSelect.render(pipeline));
+                return badRequest(imageSelect.render(pipeline,  "Oops! Couldn't find one of the images you selected."));
             }
         }
 

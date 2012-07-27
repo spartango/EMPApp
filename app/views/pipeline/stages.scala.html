@@ -1,4 +1,4 @@
-@(pipeline: models.Pipeline)(content: Html)
+@(pipeline: models.Pipeline, message: String = null)(content: Html)
 
 <ul class="breadcrumb">
         <li>
@@ -50,5 +50,11 @@
         </li>
 </ul>
 
+@if(message != null) {
+    <div class="alert">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        @message
+    </div>
+}
 
 @content

@@ -1,9 +1,9 @@
-@(pipeline: models.Pipeline)
+@(pipeline: models.Pipeline, message: String)
 
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Select Images") {
-    @stages(pipeline) {
+    @stages(pipeline, message) {
         <script src="@routes.Assets.at("js/lightbox.js")"></script>
         <link href="@routes.Assets.at("css/lightbox.css")" rel="stylesheet" />
         <script type="text/javascript" src="http://api.filepicker.io/v0/filepicker.js"></script>

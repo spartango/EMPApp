@@ -5,6 +5,26 @@
 @main("EMPApp: Pick Particles") {
     @stages(pipeline) {
         <h1>Pick Particles</h1>
-
+        <h3>How it works</h3>
+        <br/>
+        <div id="aboutPicking" class="row">
+            <div class="span6">
+                <p>
+                    Particle picking find single objects, or <em>particles</em>, from large images for individual analysis later on.
+                    The goal here is to select individual protein molecules or complexes, ignoring anything else in the images. 
+                </p>
+                <p>
+                    In order to do this, EMP must be able to tell the difference between relevant objects and background noise and debris. 
+                    EMP assumes that the individual particles have contrast from the background, and are contiguous and distinct from one another. 
+                </p>
+                <p> 
+                    To actually pick the particles, EMP blurs the images twice to get just the rough shapes of objects. 
+                    It then uses a contrast threshold to find individual proteins, and draw a bounding box around each them. 
+                </p>
+            </div>
+        </div>
+        @helper.form(action = routes.Pipeline.doPickParticles(pipeline.getId()), 'class -> "form") {
+            <button type="submit" class="span3 btn btn-primary btn-large">Particle Filtering <i class="icon-arrow-right icon-white"></i> </button>
+        }
     }
 }
