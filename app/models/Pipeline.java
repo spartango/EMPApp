@@ -38,6 +38,9 @@ public @Entity class Pipeline extends Model {
     public Date                                                                               created;
     public @Lob String                                                                        pickerParams;
     public @Lob String                                                                        filterParams;
+    public @Lob String                                                                        generationParams;
+    public @Lob String                                                                        classifierParams;
+
     public @ManyToMany(mappedBy = "pipelines", cascade = CascadeType.ALL) Set<Image>          images;
     public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<Particle>      particles;
     public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<ParticleClass> particleClasses;
@@ -48,6 +51,9 @@ public @Entity class Pipeline extends Model {
         this.status = SELECT_IMAGES;
         this.created = new Date();
         this.pickerParams = "{}";
+        this.generationParams = "{}";
+        this.filterParams = "{}";
+        this.classifierParams = "{}";
         particleClasses = new ArrayList<>();
         particles = new ArrayList<>();
         images = new HashSet<>();
@@ -86,6 +92,14 @@ public @Entity class Pipeline extends Model {
 
     public void setFilterParams(String newParams) {
         filterParams = newParams;
+    }
+
+    public String getGenerationParams() {
+        return generationParams;
+    }
+
+    public void setGenerationParams(String newParams) {
+        generationParams = newParams;
     }
 
     public Project getProject() {

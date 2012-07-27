@@ -65,18 +65,24 @@ GET     /project/:projectId/createPipeline     controllers.Pipeline.create(proje
 # Go to the latest stage in a pipeline
 GET     /pipeline/:id              controllers.Pipeline.resume(id: Long)
 
+# Select images for use in a pipeline
 GET     /pipeline/:id/selectImages      controllers.Pipeline.selectImages(id: Long)
 POST    /pipeline/:id/doSelectImages    controllers.Pipeline.doSelectImages(id: Long)
 
+# Configure the pipeline's particle picking
 GET     /pipeline/:id/pick         controllers.Pipeline.pickParticles(id: Long)
 POST    /pipeline/:id/doPick       controllers.Pipeline.doPickParticles(id: Long)
 
+# Configure the pipeline's particle filtering
 GET     /pipeline/:id/filter       controllers.Pipeline.filter(id: Long)
 POST    /pipeline/:id/doFilter     controllers.Pipeline.doFilter(id: Long)
 
+# Configure the pipeline's particle generation
 GET     /pipeline/:id/rotate       controllers.Pipeline.rotate(id: Long)
+POST    /pipeline/:id/doRotate     controllers.Pipeline.doRotate(id: Long)
 
 GET     /pipeline/:id/classify     controllers.Pipeline.classify(id: Long)
+POST    /pipeline/:id/doClassify    controllers.Pipeline.doClassify(id: Long)
 
 GET     /pipeline/:id/startRun     controllers.Pipeline.startRun(id: Long)
 

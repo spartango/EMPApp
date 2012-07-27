@@ -1,10 +1,89 @@
-@(pipeline: models.Pipeline)
+@(pipeline: models.Pipeline, message: String = null)
 
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Generate Particles") {
-    @stages(pipeline) {
-        <h1>Generate Particles</h1>
+    <script src="@routes.Assets.at("js/pipeline/moreOptions.js")"></script>
 
+    @stages(pipeline) {
+        @if(message != null) {
+            @alertMessage(message)
+        }
+        <h1>Generate Particles</h1>
+        <h3>How it works</h3>
+        <br/>
+        <div id="aboutGeneration" class="row">
+            <div class="span6">
+                <p>
+                    Particle generation seeks to produce the many orientations of each particle by rotating it through 360&deg;.
+                    This step is a preparatory step for classification, which follows. 
+                </p>
+                <p>
+                    The idea here is that by generating many orientations for each particle, classification will group similar particles 
+                    robustly. For any two particles that are structurally similar, a matching pair of oriented particles can be found 
+                    among the set of all orientations generated in this step. 
+                </p>
+                <p>
+                    It is important to note that the accuracy of the rotational alignment of particles may be limited by the angle between 
+                    rotations available to EMP; if a rotation angle of 10 degrees is specified, for example, then particles may be aligned with up
+                    to 10 degrees of error. 
+                </p>
+                <p>
+                    Specifying smaller rotation angles, however, increases the number of particles to be generated, <em>significantly</em> increasing the 
+                    computational costs of classification. 
+                </p>
+                <p>
+                    Additionally, if your particles are poorly centered, it is possible to generate additional particles that are shifted in the image plane, 
+                    with the hope of matching other uncentered particles. This is even more computationally expensive, however, generating a number of 
+                    shifted particles for <em>each rotation</em>. 
+                </p>
+                <p>
+                    The number of particles generated overall is proportional to the product of the number of rotations and number of shifts.
+                </p>
+            </div>
+        </div>
+        <br/>
+        @helper.form(action = routes.Pipeline.doRotate(pipeline.getId()), 'class -> "form-horizontal") {
+            <div class="row">
+                <div class="span3">
+                    <h3>Options</h3>   
+                </div>
+            </div>
+            <div class="row">
+                <div id="standard" class="span6 well">
+                    <div class="control-group">
+                        <label class="control-label" for="rotationAngle">Angle between rotations</label>
+                        <div class="controls">
+                            <input id="rotationAngle" type="text" name="rotationAngle" class="span1" placeholder="degrees"/>&deg;
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span3">
+                    <button id="more" type="button" class="btn btn-large" onclick="toggleAdvanced()">More Options</button>  
+                </div>
+            </div>
+            <br/>
+            <div id="advanced" class="row" style="display: none">
+                 <div class="span6 well">
+                    <div class="control-group">
+                        <label class="control-label" for="shiftDistance">Maximum shift distance</label>
+                        <div class="controls">
+                            <input id="shiftDistance" type="text" name="shiftDistance" class="span1" placeholder="pixels"/> from center
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="shiftIncrement">Shift increment</label>
+                        <div class="controls">
+                            <input id="shiftIncrement" type="text" name="shiftIncrement" class="span1" placeholder="pixels" value="1"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="span3 btn btn-primary btn-large">Particle Classification <i class="icon-arrow-right icon-white"></i> </button>
+            </div>
+        }
     }
 }
