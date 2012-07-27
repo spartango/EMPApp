@@ -72,6 +72,7 @@ GET     /pipeline/:id/pick         controllers.Pipeline.pickParticles(id: Long)
 POST    /pipeline/:id/doPick       controllers.Pipeline.doPickParticles(id: Long)
 
 GET     /pipeline/:id/filter       controllers.Pipeline.filter(id: Long)
+POST    /pipeline/:id/doFilter     controllers.Pipeline.doFilter(id: Long)
 
 GET     /pipeline/:id/rotate       controllers.Pipeline.rotate(id: Long)
 

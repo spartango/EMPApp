@@ -37,6 +37,7 @@ public @Entity class Pipeline extends Model {
     public Long                                                                               status;
     public Date                                                                               created;
     public @Lob String                                                                        pickerParams;
+    public @Lob String                                                                        filterParams;
     public @ManyToMany(mappedBy = "pipelines", cascade = CascadeType.ALL) Set<Image>          images;
     public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<Particle>      particles;
     public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<ParticleClass> particleClasses;
@@ -77,6 +78,14 @@ public @Entity class Pipeline extends Model {
 
     public void setPickerParams(String newParams) {
         pickerParams = newParams;
+    }
+
+    public String getFilterParams() {
+        return filterParams;
+    }
+
+    public void setFilterParams(String newParams) {
+        filterParams = newParams;
     }
 
     public Project getProject() {

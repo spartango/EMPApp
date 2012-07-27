@@ -10,12 +10,14 @@ import views.html.pipeline.*;
 import be.objectify.deadbolt.actions.Restrict;
 import play.Logger;
 import forms.PickerParams;
+import forms.FilterParams;
 import java.util.Map;
 import java.util.List;
 
 public class Pipeline extends Controller {
 
     final static Form<PickerParams> pickerForm = form(PickerParams.class);
+    final static Form<FilterParams> filterForm = form(FilterParams.class);
 
     public static @Restrict(Application.USER_ROLE) Result create(Long projectId) {
         final User user = Application.getLocalUser(session());
@@ -46,7 +48,7 @@ public class Pipeline extends Controller {
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_PICKER)
             return ok(picker.render(pipeline, null));
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_FILTERS)
-            return ok(filter.render(pipeline));
+            return ok(filter.render(pipeline, null));
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_GENERATION)
             return ok(rotate.render(pipeline));
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_CLASSIFIER)
@@ -62,17 +64,6 @@ public class Pipeline extends Controller {
         else 
             return notFound();
     
-    }
-
-    public static @Restrict(Application.USER_ROLE) Result selectImages(Long id) {
-        final User user = Application.getLocalUser(session());
-        // Get the pipeline
-        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);
-        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.SELECT_IMAGES) {
-            return ok(imageSelect.render(pipeline, null));
-        } else {
-            return badRequest();
-        }
     }
 
     public static @Restrict(Application.USER_ROLE) Result pickParticles(Long id) {
@@ -111,7 +102,7 @@ public class Pipeline extends Controller {
             pipeline.setStatus(models.Pipeline.CONFIG_FILTERS);
         }
         pipeline.save();
-        return ok(filter.render(pipeline));
+        return ok(filter.render(pipeline, null));
     }
 
     public static @Restrict(Application.USER_ROLE) Result filter(Long id) {
@@ -119,10 +110,37 @@ public class Pipeline extends Controller {
         // Get the pipeline
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);        
         if(pipeline != null && pipeline.getStatus() >= models.Pipeline.CONFIG_FILTERS) {
-            return ok(filter.render(pipeline));
+            return ok(filter.render(pipeline, null));
         } else {
             return badRequest();
         }
+    }
+
+    public static @Restrict(Application.USER_ROLE) Result doFilter(Long id) {
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);        
+        if(pipeline == null || pipeline.getStatus() < models.Pipeline.CONFIG_PICKER) {
+            return badRequest();
+        }
+
+        // Bind the form
+        Form<FilterParams> filledForm = filterForm.bindFromRequest();
+        if (filledForm.hasErrors()) {
+            return badRequest(filter.render(pipeline, "Oops! You're missing some filtering parameters"));
+        }
+
+        // Check on the boxSize
+        FilterParams params = filledForm.get();
+
+        // Build some JSON
+        pipeline.setFilterParams(params.toJSONString());
+
+        if(pipeline.getStatus() == models.Pipeline.CONFIG_FILTERS) {
+            pipeline.setStatus(models.Pipeline.CONFIG_GENERATION);
+        }
+        pipeline.save();
+        return ok(rotate.render(pipeline));
     }
 
     public static @Restrict(Application.USER_ROLE) Result rotate(Long id) {
@@ -164,6 +182,17 @@ public class Pipeline extends Controller {
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
         if(pipeline != null && pipeline.getStatus() >= models.Pipeline.RUNNING) {
             return ok(status.render(pipeline));
+        } else {
+            return badRequest();
+        }
+    }
+
+    public static @Restrict(Application.USER_ROLE) Result selectImages(Long id) {
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.SELECT_IMAGES) {
+            return ok(imageSelect.render(pipeline, null));
         } else {
             return badRequest();
         }

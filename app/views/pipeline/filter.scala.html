@@ -1,10 +1,69 @@
-@(pipeline: models.Pipeline)
+@(pipeline: models.Pipeline, message: String = null)
 
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Filter Particles") {
     @stages(pipeline) {
+        @if(message != null) {
+            @alertMessage(message)
+        }
         <h1>Filter Particles</h1>
-
+        <h3>How it works</h3>
+        <br/>
+        <div id="aboutFiltering" class="row">
+            <div class="span6">
+                <p>
+                    Filtering seeks to suppress the effects of noise surrounding a particle in classification and analysis. 
+                    This is accomplished through three steps, performed on all particles.
+                </p>
+                <p>
+                    First, a circular mask is applied to each particle, blacking out any features outside of a certain radius.
+                    This is designed to hide neighboring particles which may appear at the edges of a bounding box. 
+                    A sufficient tight mask might cut out details at the perimeter of a particle, however. 
+                </p>
+                <p>
+                    Second, a <a href="http://en.wikipedia.org/wiki/Low-pass_filter">low-pass filter</a> is applied, eliminating 
+                    high frequency information. This filter should suppress most detector and imaging noise, which occurs at high spatial frequencies.
+                    A sufficiently large low-pass filter, however, risks reducing the visibility of fine features. 
+                </p>
+                <p>
+                    Finally, the particles may be binned, reducing their size by summing groups of pixels into <em>bins</em>. 
+                    Binning reduces pixel-by-pixel variation and computation time, but at the cost of spatial resolution. 
+                </p>
+            </div>
+        </div>
+        <br/>
+        @helper.form(action = routes.Pipeline.doFilter(pipeline.getId()), 'class -> "form-horizontal") {
+            <div class="row">
+                <div class="span3">
+                    <h3>Options</h3>   
+                </div>
+            </div>
+            <div class="row">
+                <div id="standard" class="span6 well">
+                    <div class="control-group">
+                        <label class="control-label" for="maskSize">Circular Mask size</label>
+                        <div class="controls">
+                            <input id="maskSize" type="text" name="maskSize" class="span1" placeholder="in pixels"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="lowPassFilter">Low pass filter radius</label>
+                        <div class="controls">
+                            <input id="lowPassFilter" type="text" name="lowPassFilter" class="span1" placeholder="in pixels"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="Binning">Binning per pixel</label>
+                        <div class="controls">
+                            <input id="Binning" type="text" name="Binning" class="span1" placeholder="times" value="1"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="span3 btn btn-primary btn-large">Particle Generation <i class="icon-arrow-right icon-white"></i> </button>
+            </div>
+        }
     }
 }
