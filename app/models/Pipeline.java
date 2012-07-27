@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
+import javax.persistence.Lob;
 
 import play.db.ebean.Model;
 
@@ -27,7 +28,6 @@ public @Entity class Pipeline extends Model {
     public static final long                                                                RUNNING           = 6;
     public static final long                                                                COMPLETE          = 7;
     public static final long                                                                ERROR             = 8;
-
     /**
      * 
      */ 
@@ -36,6 +36,7 @@ public @Entity class Pipeline extends Model {
     public @ManyToOne Project                                                                 project;
     public Long                                                                               status;
     public Date                                                                               created;
+    public @Lob String                                                                        pickerParams;
     public @ManyToMany(mappedBy = "pipelines", cascade = CascadeType.ALL) Set<Image>          images;
     public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<Particle>      particles;
     public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<ParticleClass> particleClasses;
@@ -45,6 +46,7 @@ public @Entity class Pipeline extends Model {
         this.project = project;
         this.status = SELECT_IMAGES;
         this.created = new Date();
+        this.pickerParams = "{}";
         particleClasses = new ArrayList<>();
         particles = new ArrayList<>();
         images = new HashSet<>();
@@ -67,6 +69,14 @@ public @Entity class Pipeline extends Model {
 
     public void setStatus(Long newStatus) {
         status = newStatus;
+    }
+
+    public String getPickerParams() {
+        return pickerParams;
+    }
+
+    public void setPickerParams(String newParams) {
+        pickerParams = newParams;
     }
 
     public Project getProject() {

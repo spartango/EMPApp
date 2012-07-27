@@ -69,6 +69,7 @@ GET     /pipeline/:id/selectImages      controllers.Pipeline.selectImages(id: Lo
 POST    /pipeline/:id/doSelectImages    controllers.Pipeline.doSelectImages(id: Long)
 
 GET     /pipeline/:id/pick         controllers.Pipeline.pickParticles(id: Long)
+POST    /pipeline/:id/doPick       controllers.Pipeline.doPickParticles(id: Long)
 
 GET     /pipeline/:id/filter       controllers.Pipeline.filter(id: Long)
 

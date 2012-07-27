@@ -1,9 +1,14 @@
-@(pipeline: models.Pipeline)
+@(pipeline: models.Pipeline, message: String = null)
 
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Pick Particles") {
+    <script src="@routes.Assets.at("js/pipeline/picker.js")"></script>
+
     @stages(pipeline) {
+        @if(message != null) {
+            @alertMessage(message)
+        }
         <h1>Pick Particles</h1>
         <h3>How it works</h3>
         <br/>
@@ -24,8 +29,46 @@
             </div>
         </div>
         <br/>
-        @helper.form(action = routes.Pipeline.doPickParticles(pipeline.getId()), 'class -> "form") {
-            <button type="submit" class="span3 btn btn-primary btn-large">Particle Filtering <i class="icon-arrow-right icon-white"></i> </button>
+        @helper.form(action = routes.Pipeline.doPickParticles(pipeline.getId()), 'class -> "form-horizontal") {
+            <div class="row">
+                <div class="span3">
+                    <h3>Options</h3>   
+                </div>
+            </div>
+            <div class="row">
+                <div id="standardPicking" class="span6 well">
+                    <label>Expected particle size
+                        <input type="text" name="particleSize" class="span1" placeholder="in pixels"/>
+                    </label>  
+                    <label> +/-
+                        <input type="text" name="particleEpsilon" class="span1" placeholder="pixels"/>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span3">
+                    <button id="more" type="button" class="btn btn-large" onclick="toggleAdvanced()">More Options</button>  
+                </div>
+            </div>
+            <br/>
+            <div id="advancedPicking" class="row" style="display: none">
+                <div class="span6 well">
+                    <label>Size of box 
+                        <input type="text" name="boxSize" class="span1" placeholder="in pixels">
+                        <h6>Defaults to 2x (particle size + tolerance)</h6>
+                    </label>
+                    <br/>
+                    <label>Radius of First Filter 
+                        <input type="text" name="firstFilter" class="span1" placeholder="in pixels" value="45">
+                    </label>
+                    <label>Radius of Second Filter 
+                        <input type="text" name="secondFilter" class="span1" placeholder="in pixels" value="71">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="span3 btn btn-primary btn-large">Particle Filtering <i class="icon-arrow-right icon-white"></i> </button>
+            </div>
         }
     }
 }

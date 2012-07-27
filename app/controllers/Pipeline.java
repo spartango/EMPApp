@@ -9,10 +9,13 @@ import play.mvc.Result;
 import views.html.pipeline.*;
 import be.objectify.deadbolt.actions.Restrict;
 import play.Logger;
+import forms.PickerParams;
 import java.util.Map;
 import java.util.List;
 
 public class Pipeline extends Controller {
+
+    final static Form<PickerParams> pickerForm = form(PickerParams.class);
 
     public static @Restrict(Application.USER_ROLE) Result create(Long projectId) {
         final User user = Application.getLocalUser(session());
@@ -41,7 +44,7 @@ public class Pipeline extends Controller {
         if(pipeline.getStatus() == models.Pipeline.SELECT_IMAGES)
             return ok(imageSelect.render(pipeline, null));
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_PICKER)
-            return ok(picker.render(pipeline));
+            return ok(picker.render(pipeline, null));
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_FILTERS)
             return ok(filter.render(pipeline));
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_GENERATION)
@@ -77,7 +80,7 @@ public class Pipeline extends Controller {
         // Get the pipeline
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);        
         if(pipeline != null && pipeline.getStatus() >= models.Pipeline.CONFIG_PICKER) {
-            return ok(picker.render(pipeline));
+            return ok(picker.render(pipeline, null));
         } else {
             return badRequest();
         }
@@ -87,11 +90,28 @@ public class Pipeline extends Controller {
         final User user = Application.getLocalUser(session());
         // Get the pipeline
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);        
-        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.CONFIG_PICKER) {
-            return ok();
-        } else {
+        if(pipeline == null || pipeline.getStatus() < models.Pipeline.CONFIG_PICKER) {
             return badRequest();
         }
+
+        // Bind the form
+        Form<PickerParams> filledForm = pickerForm.bindFromRequest();
+        if (filledForm.hasErrors()) {
+            return badRequest(picker.render(pipeline, "Oops! You're missing the expected particle size or tolerance"));
+        }
+
+        // Check on the boxSize
+        PickerParams params = filledForm.get();
+        params.validateBoxSize();
+
+        // Build some JSON
+        pipeline.setPickerParams(params.toJSONString());
+
+        if(pipeline.getStatus() == models.Pipeline.CONFIG_PICKER) {
+            pipeline.setStatus(models.Pipeline.CONFIG_FILTERS);
+        }
+        pipeline.save();
+        return ok(filter.render(pipeline));
     }
 
     public static @Restrict(Application.USER_ROLE) Result filter(Long id) {
@@ -173,7 +193,7 @@ public class Pipeline extends Controller {
             && !pipeline.getImages().isEmpty()) {
             // We already have images, but didn't get any new ones.
             // Let this slide
-            return ok(picker.render(pipeline));
+            return ok(picker.render(pipeline, null));
         } else if(!pipeline.getImages().isEmpty()) {
             // New images are coming in, clear the old ones
             pipeline.clearImages();
@@ -201,7 +221,7 @@ public class Pipeline extends Controller {
             pipeline.setStatus(models.Pipeline.CONFIG_PICKER);
         }
         pipeline.save();
-        return ok(picker.render(pipeline));
+        return ok(picker.render(pipeline, null));
         //return ok(pipeline.getImages().toString());
     }
 
