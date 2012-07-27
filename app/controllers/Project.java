@@ -27,7 +27,7 @@ public class Project extends Controller {
         Form<ProjectParams> filledForm = projectForm.bindFromRequest();
 
         if (filledForm.hasErrors()) {
-            return badRequest(create.render(filledForm));
+            return badRequest(create.render(filledForm, "Oops! You didn't provide a name for the project."));
         } else {
             ProjectParams created = filledForm.get();
             // Add a new project from the params
@@ -40,7 +40,7 @@ public class Project extends Controller {
     }
 
     public static @Restrict(Application.USER_ROLE) Result create() {
-        return ok(create.render(projectForm));
+        return ok(create.render(projectForm, null));
     }
 
     public static @Restrict(Application.USER_ROLE) Result describe(Long id) {

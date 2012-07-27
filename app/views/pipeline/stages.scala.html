@@ -49,12 +49,7 @@
             }
         </li>
 </ul>
-
 @if(message != null) {
-    <div class="alert">
-        <a class="close" data-dismiss="alert" href="#">×</a>
-        @message
-    </div>
+    @alertMessage(message)
 }
-
 @content

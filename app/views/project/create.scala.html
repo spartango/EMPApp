@@ -1,8 +1,11 @@
-@(projectForm: Form[forms.ProjectParams])
+@(projectForm: Form[forms.ProjectParams], message: String = null)
 
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Create Project", "newproject") {
+    @if(message != null) {
+        @alertMessage(message)
+    }
     <h1>Start a New Project</h1>
     @helper.form(action = routes.Project.doCreate(), 'class -> "form") {
         <div id="projectform">
