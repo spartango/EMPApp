@@ -1,10 +1,85 @@
-@(pipeline: models.Pipeline)
+@(pipeline: models.Pipeline, message: String = null)
 
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Classify Particles") {
-    @stages(pipeline) {
-        <h1>Classify Particles</h1>
+    <script src="@routes.Assets.at("js/pipeline/moreOptions.js")"></script>
 
+    @stages(pipeline) {
+        @if(message != null) {
+            @alertMessage(message)
+        }
+        <h1>Classify Particles</h1>
+        <h3>How it works</h3>
+        <br/>
+        <div id="aboutClassification" class="row">
+            <div class="span6">
+                <p>
+                    Particle classification works to separate distinct particle types, whether different views
+                    of a single type of object, or entirely different objects. In the same step, classification
+                    aligns particles of the same type (or <em>class</em>) to each other, such that they are 
+                    in the same orientation. 
+                </p>
+                <p> 
+                    EMP classifies particles by finding the <a href="http://en.wikipedia.org/wiki/Principal_component_analysis">principal components</a> of the entire distribution of particles,
+                    including those generated in the previous step. This effectively finds the sources of variation between the 
+                    particles. 
+                </p>
+                <p>
+                    The particles are then projected into the space of these components, grouping them by the actual
+                    variations each particle contains. EMP uses a simple cluster detection technique, <a href="http://en.wikipedia.org/wiki/K-means_clustering">
+                    K-means clustering</a> to form a certain number of classes of similar particles.  
+                </p>
+                <p>
+                    Specifying a large number of classes allows for finer separation of particles, sorting slightly 
+                    different particles differently. But with a sufficiently large number of classes, the classes may
+                    be too small to be useful. Utilizing a larger number of principal components may also allow for the
+                    detection of finer differences, but is also more susceptible to sample noise. High principal component 
+                    counts may also incur high computational costs. 
+            </div>
+        </div>
+        <br/>
+        @helper.form(action = routes.Pipeline.doClassify(pipeline.getId()), 'class -> "form-horizontal") {
+            <div class="row">
+                <div class="span3">
+                    <h3>Options</h3>   
+                </div>
+            </div>
+            <div class="row">
+                <div id="standard" class="span6 well">
+                    <div class="control-group">
+                        <label class="control-label" for="classCount">Number of classes</label>
+                        <div class="controls">
+                            <input id="classCount" type="text" name="classCount" class="span1"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span3">
+                    <button id="more" type="button" class="btn btn-large" onclick="toggleAdvanced()">More Options</button>  
+                </div>
+            </div>
+            <br/>
+            <div id="advanced" class="row" style="display: none">
+                 <div class="span6 well">
+                    <div class="control-group">
+                        <label class="control-label" for="classAccuracy">Minimum accuracy of the classes</label>
+                        <div class="controls">
+                            <input id="classAccuracy" type="text" name="classAccuracy" class="span1" value="0.001"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="principalComponents">Principal Components</label>
+                        <div class="controls">
+                            <input id="principalComponents" type="text" name="principalComponents" class="span1" value="12"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="span3 btn btn-primary btn-large">Run Pipeline <i class="icon-arrow-right icon-white"></i> </button>
+            </div>
+        }
     }
 }

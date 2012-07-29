@@ -102,6 +102,15 @@ public @Entity class Pipeline extends Model {
         generationParams = newParams;
     }
 
+    public String getClassifierParams() {
+        return classifierParams;
+    }
+
+    public void setClassifierParams(String newParams) {
+        classifierParams = newParams;
+    }
+
+
     public Project getProject() {
         return project;
     }

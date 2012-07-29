@@ -9,17 +9,16 @@ import play.mvc.Result;
 import views.html.pipeline.*;
 import be.objectify.deadbolt.actions.Restrict;
 import play.Logger;
-import forms.PickerParams;
-import forms.FilterParams;
-import forms.GenerationParams;
+import forms.*;
 import java.util.Map;
 import java.util.List;
 
 public class Pipeline extends Controller {
 
-    final static Form<PickerParams> pickerForm     = form(PickerParams.class);
-    final static Form<FilterParams> filterForm     = form(FilterParams.class);
-    final static Form<GenerationParams> rotateForm = form(GenerationParams.class);
+    final static Form<PickerParams>     pickerForm   = form(PickerParams.class);
+    final static Form<FilterParams>     filterForm   = form(FilterParams.class);
+    final static Form<GenerationParams> rotateForm   = form(GenerationParams.class);
+    final static Form<ClassifierParams> classifyForm = form(ClassifierParams.class);
 
     public static @Restrict(Application.USER_ROLE) Result create(Long projectId) {
         final User user = Application.getLocalUser(session());
@@ -54,7 +53,7 @@ public class Pipeline extends Controller {
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_GENERATION)
             return ok(rotate.render(pipeline, null));
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_CLASSIFIER)
-            return ok(classify.render(pipeline));
+            return ok(classify.render(pipeline, null));
         else if(pipeline.getStatus() == models.Pipeline.START_RUN)
             return ok(startRun.render(pipeline));
         else if(pipeline.getStatus() == models.Pipeline.RUNNING)
@@ -180,7 +179,7 @@ public class Pipeline extends Controller {
             pipeline.setStatus(models.Pipeline.CONFIG_CLASSIFIER);
         }
         pipeline.save();
-        return ok(classify.render(pipeline));
+        return ok(classify.render(pipeline, null));
     }
 
     public static @Restrict(Application.USER_ROLE) Result classify(Long id) {
@@ -188,10 +187,37 @@ public class Pipeline extends Controller {
         // Get the pipeline
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
         if(pipeline != null && pipeline.getStatus() >= models.Pipeline.CONFIG_CLASSIFIER) {
-            return ok(classify.render(pipeline));
+            return ok(classify.render(pipeline, null));
         } else {
             return badRequest();
         }
+    }
+
+    public static @Restrict(Application.USER_ROLE) Result doClassify(Long id) {
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);        
+        if(pipeline == null || pipeline.getStatus() < models.Pipeline.CONFIG_CLASSIFIER) {
+            return badRequest();
+        }
+
+        // Bind the form
+        Form<ClassifierParams> filledForm = classifyForm.bindFromRequest();
+        if (filledForm.hasErrors()) {
+            return badRequest(classify.render(pipeline, "Oops! You didn't specify some classfication parameters"));
+        }
+
+        // Check on the boxSize
+        ClassifierParams params = filledForm.get();
+
+        // Build some JSON
+        pipeline.setClassifierParams(params.toJSONString());
+
+        if(pipeline.getStatus() == models.Pipeline.CONFIG_CLASSIFIER) {
+            pipeline.setStatus(models.Pipeline.START_RUN);
+        }
+        pipeline.save();
+        return ok(startRun.render(pipeline));
     }
 
     public static @Restrict(Application.USER_ROLE) Result startRun(Long id) {
