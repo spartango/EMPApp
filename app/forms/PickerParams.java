@@ -11,6 +11,7 @@ public class PickerParams extends PipelineParams {
     public Integer boxSize = 0;
     public @Required Integer firstFilter = 45;
     public @Required Integer secondFilter = 71;
+    public @Required Integer threshold = 130;
 
     public void validateBoxSize() {
         if(boxSize == null || boxSize == 0) {

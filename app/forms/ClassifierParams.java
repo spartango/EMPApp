@@ -7,6 +7,6 @@ import java.io.IOException;
 
 public class ClassifierParams extends PipelineParams {
     public @Required Integer classCount;
-    public Integer           principalComponents = 12;
-    public Double            classAccuracy       = 0.001;
+    public @Required Integer           principalComponents = 12;
+    public @Required Double            classAccuracy       = 0.001;
 }
