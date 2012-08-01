@@ -4,7 +4,6 @@
 
 @main("EMPApp: Pick Particles") {
     <script src="@routes.Assets.at("js/pipeline/moreOptions.js")"></script>
-
     @stages(pipeline) {
         @if(message != null) {
             @alertMessage(message)
@@ -38,10 +37,10 @@
             <div class="row">
                 <div id="standard" class="span6 well">
                     <label>Expected particle size
-                        <input type="text" name="particleSize" class="span1" placeholder="in pixels"/>
+                        <input id="particleSize" type="text" name="particleSize" class="span1" placeholder="in pixels"/>
                     </label>  
                     <label> +/-
-                        <input type="text" name="particleEpsilon" class="span1" placeholder="pixels"/>
+                        <input id="particleEpsilon" type="text" name="particleEpsilon" class="span1" placeholder="pixels"/>
                     </label>
                 </div>
             </div>
@@ -85,4 +84,9 @@
             </div>
         }
     }
+    <script src="@routes.Assets.at("js/pipeline/loadExisting.js")"></script>
+    <script>
+        var params = @Html(pipeline.getPickerParams());
+        loadExistingParams(params);
+    </script> 
 }

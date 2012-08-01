@@ -86,4 +86,9 @@
             </div>
         }
     }
+    <script src="@routes.Assets.at("js/pipeline/loadExisting.js")"></script>
+    <script>
+        var params = @Html(pipeline.getGenerationParams());
+        loadExistingParams(params);
+    </script> 
 }

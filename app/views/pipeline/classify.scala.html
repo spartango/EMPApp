@@ -82,5 +82,10 @@
                 <button type="submit" class="span3 btn btn-primary btn-large">Run Pipeline <i class="icon-arrow-right icon-white"></i> </button>
             </div>
         }
-    }
+    }    
+    <script src="@routes.Assets.at("js/pipeline/loadExisting.js")"></script>
+    <script>
+        var params = @Html(pipeline.getClassifierParams());
+        loadExistingParams(params);
+    </script> 
 }

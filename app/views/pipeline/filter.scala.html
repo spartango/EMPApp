@@ -54,9 +54,9 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="Binning">Binning per pixel</label>
+                        <label class="control-label" for="binning">Binning per pixel</label>
                         <div class="controls">
-                            <input id="Binning" type="text" name="Binning" class="span1" placeholder="times" value="1"/>
+                            <input id="binning" type="text" name="binning" class="span1" placeholder="times" value="1"/>
                         </div>
                     </div>
                 </div>
@@ -66,4 +66,9 @@
             </div>
         }
     }
+    <script src="@routes.Assets.at("js/pipeline/loadExisting.js")"></script>
+    <script>
+        var params = @Html(pipeline.getFilterParams());
+        loadExistingParams(params);
+    </script> 
 }
