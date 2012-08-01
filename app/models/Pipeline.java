@@ -32,14 +32,21 @@ public @Entity class Pipeline extends Model {
      * 
      */ 
     private static final long                                                                 serialVersionUID  = -7980942758060990464L;
+    
+
     @Id public Long                                                                           id;
     public @ManyToOne Project                                                                 project;
     public Long                                                                               status;
     public Date                                                                               created;
+
+    // JSON parameter structures
     public @Lob String                                                                        pickerParams;
     public @Lob String                                                                        filterParams;
     public @Lob String                                                                        generationParams;
     public @Lob String                                                                        classifierParams;
+
+    // UUID provided by the pipeline manager once this pipeline is allocated
+    public String                                                                             guardianId;
 
     public @ManyToMany(mappedBy = "pipelines", cascade = CascadeType.ALL) Set<Image>          images;
     public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<Particle>      particles;
