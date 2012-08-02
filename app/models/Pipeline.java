@@ -45,6 +45,8 @@ public @Entity class Pipeline extends Model {
     public @Lob String                                                                        generationParams;
     public @Lob String                                                                        classifierParams;
 
+    // Results
+    public @Lob String                                                                        results;
     // UUID provided by the pipeline manager once this pipeline is allocated
     public String                                                                             guardianId;
 
@@ -61,6 +63,7 @@ public @Entity class Pipeline extends Model {
         this.generationParams = "{}";
         this.filterParams = "{}";
         this.classifierParams = "{}";
+        this.results = "{}";
         particleClasses = new ArrayList<>();
         particles = new ArrayList<>();
         images = new HashSet<>();
@@ -117,6 +120,13 @@ public @Entity class Pipeline extends Model {
         classifierParams = newParams;
     }
 
+    public void setResults(String results) {
+        this.results = results;
+    }
+
+    public String getResults() {
+        return results;
+    }
 
     public Project getProject() {
         return project;

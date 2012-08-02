@@ -231,7 +231,32 @@ public class Pipeline extends Controller {
         }
     }
 
+    public static @Restrict(Application.USER_ROLE) Result doStartRun(Long id) {
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.START_RUN) {
+            // TODO: Call the WebService for pipeline creation and save a UUID
+            pipeline.setStatus(models.Pipeline.RUNNING);
+            pipeline.save();
+            return ok(status.render(pipeline));
+        } else {
+            return badRequest();
+        }
+    }
+
     public static @Restrict(Application.USER_ROLE) Result status(Long id) {
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.RUNNING) {
+            return ok(status.render(pipeline));
+        } else {
+            return badRequest();
+        }
+    }
+    
+    public static @Restrict(Application.USER_ROLE) Result progress(Long id) {
         final User user = Application.getLocalUser(session());
         // Get the pipeline
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    

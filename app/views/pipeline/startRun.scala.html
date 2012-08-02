@@ -5,6 +5,20 @@
 @main("EMPApp: Start Pipeline") {
     @stages(pipeline) {
         <h1>Start Pipeline</h1>
-
+        <h3> Final Checks </h3>
+        <br/>
+        <div class="row">
+            <div class="span6">
+            <p>
+                It looks like your pipeline is ready to run. 
+                This is your last chance to double check all of the planning for the pipeline.
+                Be sure to do so before starting the pipeline. 
+        	</p>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <a href=@routes.Pipeline.doStartRun(pipeline.getId()) class="span3 btn btn-success btn-large">Run Pipeline <i class="icon-ok icon-white"></i> </a>
+        </div>
     }
 }

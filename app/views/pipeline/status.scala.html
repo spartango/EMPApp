@@ -3,8 +3,18 @@
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Pipeline Status") {
-    @stages(pipeline) {
-        <h1>Status</h1>
+    <h1>Status</h1>
+    <br/>
+    <div class="row">
+    	<div class="span8 offset1">
+		    <div class="progress progress-striped active">
+				<div class="bar"
+		   			style="width: 0%;">
+		   		</div>
+		   	</div>
+		</div>
+	</div>
+    
+    <script src="@routes.Assets.at("js/pipeline/status.js")"></script>
 
-    }
 }
