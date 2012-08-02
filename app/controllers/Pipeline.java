@@ -261,7 +261,7 @@ public class Pipeline extends Controller {
         // Get the pipeline
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
         if(pipeline != null && pipeline.getStatus() >= models.Pipeline.RUNNING) {
-            return ok(status.render(pipeline));
+            return ok("{}");
         } else {
             return badRequest();
         }
