@@ -14,6 +14,9 @@ function getProgress() {
                   if(!renderAllProgress(JSON.parse(data))) {
                     setTimeout('getProgress()', 1000);
                   }
+              },
+              error: function() {
+                  setTimeout('getProgress()', 1000);
               }
             });
 }
@@ -25,9 +28,8 @@ function calculateProgress(item) {
 
 function renderProgress(name, percentage) {
     // Calculate progress
-    console.log(name+" progress: "+percentage);
     $('#'+name+'progress').css('width', percentage+'%');
-    $('#'+name+'number').text(percentage+'%');
+    $('#'+name+'number').text(percentage.toFixed(1)+'%');
     if(percentage >= 100) {
         $('#'+name+'bar').removeClass('active');
         $('#'+name+'bar').addClass('progress-success');

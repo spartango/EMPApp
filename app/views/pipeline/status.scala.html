@@ -8,17 +8,15 @@
 	</script>
     <h1>Status</h1>
     <br/>
+	<div class="span8">
+		@progressBar("loader", "Downloading")
+		@progressBar("picker", "Picking")
+		@progressBar("filter", "Filtering")
+		@progressBar("generation", "Generating")
+		@progressBar("classifier", "Classifying")
+		@progressBar("uploader", "Uploading")
 	</div>
-	<div class="row">
-		<div class="span6 offset1">
-			@progressBar("loader", "Downloading")
-			@progressBar("picker", "Picking")
-			@progressBar("filter", "Filtering")
-			@progressBar("generation", "Generating")
-			@progressBar("classifier", "Classifying")
-			@progressBar("uploader", "Uploading")
-		</div>
-	</div>
+	
 	<br/>
     <div id="results" class="row" style="display: none">
         <a href=@routes.Pipeline.results(pipeline.getId()) class="span3 offset2 btn btn-primary btn-large">View Results</a>
