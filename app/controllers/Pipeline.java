@@ -10,6 +10,8 @@ import views.html.pipeline.*;
 import be.objectify.deadbolt.actions.Restrict;
 import play.Logger;
 import forms.*;
+import play.libs.*;
+import play.*;
 import java.util.Map;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class Pipeline extends Controller {
         else if(pipeline.getStatus() == models.Pipeline.CONFIG_CLASSIFIER)
             return ok(classify.render(pipeline, null));
         else if(pipeline.getStatus() == models.Pipeline.START_RUN)
-            return ok(startRun.render(pipeline));
+            return ok(startRun.render(pipeline, null));
         else if(pipeline.getStatus() == models.Pipeline.RUNNING)
             return ok(status.render(pipeline));
         else if(pipeline.getStatus() == models.Pipeline.COMPLETE)
@@ -217,7 +219,7 @@ public class Pipeline extends Controller {
             pipeline.setStatus(models.Pipeline.START_RUN);
         }
         pipeline.save();
-        return ok(startRun.render(pipeline));
+        return ok(startRun.render(pipeline, null));
     }
 
     public static @Restrict(Application.USER_ROLE) Result startRun(Long id) {
@@ -225,7 +227,7 @@ public class Pipeline extends Controller {
         // Get the pipeline
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
         if(pipeline != null && pipeline.getStatus() >= models.Pipeline.START_RUN) {
-            return ok(startRun.render(pipeline));
+            return ok(startRun.render(pipeline, null));
         } else {
             return badRequest();
         }
@@ -234,11 +236,33 @@ public class Pipeline extends Controller {
     public static @Restrict(Application.USER_ROLE) Result doStartRun(Long id) {
         final User user = Application.getLocalUser(session());
         // Get the pipeline
-        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
-        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.START_RUN) {
-            // TODO: Call the WebService for pipeline creation and save a UUID
-            pipeline.setStatus(models.Pipeline.RUNNING);
-            pipeline.save();
+        final models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
+        if(pipeline != null && pipeline.getStatus() == models.Pipeline.START_RUN) {
+            // Get the host config
+            String host = Play.application().configuration().getString("pipeline.host");
+            int port = Play.application().configuration().getInt("pipeline.port");
+
+            // Prep the request
+            String url = "http://"+host+":"+port+"/pipeline/create";
+
+            try {
+                // Post the request
+                F.Promise<WS.Response> promise = WS.url(url).post(pipeline.getParamsJson());
+
+                // Get the response (sync, play async is broken :( )
+                WS.Response response = promise.get(); 
+                Logger.warn("Pipeline response:"+response.getStatus()+" -> "+response.getBody());
+                if(response.getStatus() == 200) {
+                    pipeline.setGuardianId(response.getBody());
+                    pipeline.setStatus(models.Pipeline.RUNNING);
+                    pipeline.save();
+                    return ok(status.render(pipeline));
+                } 
+            } catch(Exception e) {
+                Logger.error("Couldn't connect to the pipeline host -> "+host+":"+port);
+            }
+            return badRequest(startRun.render(pipeline, "Oops, couldn't start the pipeline. Double check all your parameters and try again."));
+        } else if(pipeline != null && pipeline.getStatus() == models.Pipeline.RUNNING) {
             return ok(status.render(pipeline));
         } else {
             return badRequest();
@@ -261,7 +285,70 @@ public class Pipeline extends Controller {
         // Get the pipeline
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
         if(pipeline != null && pipeline.getStatus() >= models.Pipeline.RUNNING) {
-            return ok("{}");
+            // Get the host config
+            String host = Play.application().configuration().getString("pipeline.host");
+            int port = Play.application().configuration().getInt("pipeline.port");
+
+            // Prep the request
+            String url = "http://"+host+":"+port+"/pipeline/"+pipeline.getGuardianId()+"/status";
+
+            try {
+                // Post the request
+                F.Promise<WS.Response> promise = WS.url(url).get();
+
+                // Get the response (sync, play async is broken :( )
+                WS.Response response = promise.get(); 
+                if(response.getStatus() == 200) {
+                    return ok(response.getBody());
+                } 
+            } catch(Exception e) {
+                Logger.error("Couldn't connect to the pipeline host -> "+host+":"+port);
+            }
+            return internalServerError("{}");
+        } else {
+            return badRequest();
+        }
+    }
+
+    public static @Restrict(Application.USER_ROLE) Result results(Long id) {
+        final User user = Application.getLocalUser(session());
+        // Get the pipeline
+        models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
+        if(pipeline != null && pipeline.getStatus() >= models.Pipeline.RUNNING) {
+            if(pipeline.getResults() != null) {
+                // Get the host config
+                String host = Play.application().configuration().getString("pipeline.host");
+                int port = Play.application().configuration().getInt("pipeline.port");
+
+                // Prep the request
+                String url = "http://"+host+":"+port+"/pipeline/"+pipeline.getGuardianId()+"/results";
+
+                try {
+                    // Post the request
+                    F.Promise<WS.Response> promise = WS.url(url).get();
+
+                    // Get the response (sync, play async is broken :( )
+                    WS.Response response = promise.get(); 
+                    if(response.getStatus() == 200) {
+                        pipeline.setStatus(models.Pipeline.COMPLETE);
+                        pipeline.setResults(response.getBody());
+                        pipeline.save();
+
+                        // Destroy the pipeline, it's not needed anymore
+                        String destroyUrl = "http://"+host+":"+port+"/pipeline/"+pipeline.getGuardianId()+"/destroy";
+                        WS.url(destroyUrl).post("");
+
+                    } else {
+                        Logger.error("Results unavailable: Response status "+response.getStatus());
+                    }
+                } catch(Exception e) {
+                    Logger.error("Couldn't connect to the pipeline host -> "+host+":"+port);
+                }
+                return internalServerError("{}");
+            } 
+            // If results are actually available
+            return ok(results.render(pipeline));
+            
         } else {
             return badRequest();
         }

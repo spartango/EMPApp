@@ -3,18 +3,26 @@
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Pipeline Status") {
+	<script>
+		pipelineId = @pipeline.getId(); 
+	</script>
     <h1>Status</h1>
     <br/>
-    <div class="row">
-    	<div class="span8 offset1">
-		    <div class="progress progress-striped active">
-				<div class="bar"
-		   			style="width: 0%;">
-		   		</div>
-		   	</div>
+	</div>
+	<div class="row">
+		<div class="span6 offset1">
+			@progressBar("loader", "Downloading")
+			@progressBar("picker", "Picking")
+			@progressBar("filter", "Filtering")
+			@progressBar("generation", "Generating")
+			@progressBar("classifier", "Classifying")
+			@progressBar("uploader", "Uploading")
 		</div>
 	</div>
-    
+	<br/>
+    <div id="results" class="row" style="display: none">
+        <a href=@routes.Pipeline.results(pipeline.getId()) class="span3 offset3 btn btn-primary btn-large">View Results</a>
+    </div>
     <script src="@routes.Assets.at("js/pipeline/status.js")"></script>
 
 }

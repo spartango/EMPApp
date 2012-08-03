@@ -17,9 +17,15 @@
         @* Display list of available providers *@
         @_providerPartial(skipCurrent=false)
     </div>
-    <br/>
-    <h6> Or </h6>
-    <br/>
+  </div>
+  <div class="row">
+    <div class="span3">
+      <br/>
+      <h6> Or </h6>
+      <br/>
+    </div>
+  </div>
+  <div class="row">
     <div class="span3">
         @* Display proprietary login form *@
     	@helper.form(routes.Application.doSignup) {

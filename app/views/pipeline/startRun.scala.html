@@ -1,9 +1,12 @@
-@(pipeline: models.Pipeline)
+@(pipeline: models.Pipeline, message: String)
 
 @import be.objectify.deadbolt.Deadbolt
 
 @main("EMPApp: Start Pipeline") {
     @stages(pipeline) {
+        @if(message != null) {
+            @alertMessage(message)
+        }
         <h1>Start Pipeline</h1>
         <h3> Final Checks </h3>
         <br/>

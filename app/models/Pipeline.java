@@ -2,19 +2,25 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
-import javax.persistence.Lob;
+
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.node.ObjectNode;
 
 import play.db.ebean.Model;
+import play.libs.Json;
 
 public @Entity class Pipeline extends Model {
 
@@ -30,29 +36,28 @@ public @Entity class Pipeline extends Model {
     public static final long                                                                ERROR             = 8;
     /**
      * 
-     */ 
-    private static final long                                                                 serialVersionUID  = -7980942758060990464L;
-    
+     */
+    private static final long                                                               serialVersionUID  = -7980942758060990464L;
 
-    @Id public Long                                                                           id;
-    public @ManyToOne Project                                                                 project;
-    public Long                                                                               status;
-    public Date                                                                               created;
+    @Id public Long                                                                         id;
+    public @ManyToOne Project                                                               project;
+    public Long                                                                             status;
+    public Date                                                                             created;
 
     // JSON parameter structures
-    public @Lob String                                                                        pickerParams;
-    public @Lob String                                                                        filterParams;
-    public @Lob String                                                                        generationParams;
-    public @Lob String                                                                        classifierParams;
+    public @Lob String                                                                      pickerParams;
+    public @Lob String                                                                      filterParams;
+    public @Lob String                                                                      generationParams;
+    public @Lob String                                                                      classifierParams;
 
     // Results
-    public @Lob String                                                                        results;
+    public @Lob String                                                                      results;
     // UUID provided by the pipeline manager once this pipeline is allocated
-    public String                                                                             guardianId;
+    public String                                                                           guardianId;
 
-    public @ManyToMany(mappedBy = "pipelines", cascade = CascadeType.ALL) Set<Image>          images;
-    public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<Particle>      particles;
-    public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL)   List<ParticleClass> particleClasses;
+    public @ManyToMany(mappedBy = "pipelines", cascade = CascadeType.ALL) Set<Image>        images;
+    public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL) List<Particle>      particles;
+    public @OneToMany(mappedBy = "pipeline", cascade = CascadeType.ALL) List<ParticleClass> particleClasses;
 
     public Pipeline(Project project) {
         super();
@@ -63,7 +68,6 @@ public @Entity class Pipeline extends Model {
         this.generationParams = "{}";
         this.filterParams = "{}";
         this.classifierParams = "{}";
-        this.results = "{}";
         particleClasses = new ArrayList<>();
         particles = new ArrayList<>();
         images = new HashSet<>();
@@ -128,6 +132,14 @@ public @Entity class Pipeline extends Model {
         return results;
     }
 
+    public void setGuardianId(String guardianId) {
+        this.guardianId = guardianId;
+    }
+
+    public String getGuardianId() {
+        return guardianId;
+    }
+
     public Project getProject() {
         return project;
     }
@@ -137,7 +149,7 @@ public @Entity class Pipeline extends Model {
     }
 
     public void addImage(Image target) {
-        //target.addPipeline(this);
+        // target.addPipeline(this);
         images.add(target);
     }
 
@@ -149,27 +161,49 @@ public @Entity class Pipeline extends Model {
         images.clear();
     }
 
+    public String getParamsJson() {
+        ObjectNode allParams = Json.newObject();
+        // Get images
+        ArrayNode imageArray = new ArrayNode(JsonNodeFactory.instance);
+        for (Image image : images) {
+            imageArray.add(image.getUrl());
+        }
+        allParams.put("images", imageArray);
+
+        // Put the rest of the params
+        JsonNode picker = Json.parse(pickerParams);
+        JsonNode filter = Json.parse(filterParams);
+        JsonNode generator = Json.parse(generationParams);
+        JsonNode classifier = Json.parse(classifierParams);
+
+        allParams.put("picker", picker);
+        allParams.put("filter", filter);
+        allParams.put("generation", generator);
+        allParams.put("classifier", classifier);
+        return Json.stringify(allParams);
+    }
+
     public String getStatusString() {
-            if(status == SELECT_IMAGES)
-                return "Selecting Images";
-            else if(status == CONFIG_PICKER)
-                return "Particle Picking";
-            else if(status == CONFIG_FILTERS)
-                return "Configuring Filters";
-            else if(status == CONFIG_GENERATION)
-                return "Configuring Generation";
-            else if(status == CONFIG_CLASSIFIER)
-                return "Configuring Classifier";
-            else if(status == START_RUN)
-                return "Ready to Run";
-            else if(status == RUNNING)
-                return "Running";
-            else if(status == COMPLETE)
-                return "Complete" ;
-            else if(status == ERROR)
-                return "Error";
-            else
-                return "Unknown";
+        if (status == SELECT_IMAGES)
+            return "Selecting Images";
+        else if (status == CONFIG_PICKER)
+            return "Particle Picking";
+        else if (status == CONFIG_FILTERS)
+            return "Configuring Filters";
+        else if (status == CONFIG_GENERATION)
+            return "Configuring Generation";
+        else if (status == CONFIG_CLASSIFIER)
+            return "Configuring Classifier";
+        else if (status == START_RUN)
+            return "Ready to Run";
+        else if (status == RUNNING)
+            return "Running";
+        else if (status == COMPLETE)
+            return "Complete";
+        else if (status == ERROR)
+            return "Error";
+        else
+            return "Unknown";
     }
 
     public static Pipeline findById(Long id) {

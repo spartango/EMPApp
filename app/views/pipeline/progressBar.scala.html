@@ -1,0 +1,17 @@
+@(name: String, process: String)
+
+<div class="row">
+	<div class="span6">
+		<h6 id="@(name+"statusText")" style="float: left">@process</h6>
+	    <h6 id="@(name+"number")" style="float: right">0%</h6>
+	</div>
+</div>
+<div class="row">
+	<div class="span6">
+	    <div id="@(name+"bar")" class="progress progress-striped active">
+			<div id="@(name+"progress")" class="bar"
+	   			style="width: 0%;">
+	   		</div>
+	   	</div>
+	</div>
+</div>
