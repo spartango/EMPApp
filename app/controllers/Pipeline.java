@@ -315,7 +315,7 @@ public class Pipeline extends Controller {
         // Get the pipeline
         models.Pipeline pipeline = models.Pipeline.findByIdWithOwner(id, user);    
         if(pipeline != null && pipeline.getStatus() >= models.Pipeline.RUNNING) {
-            if(pipeline.getResults() != null) {
+            if(pipeline.getResults() == null) {
                 // Get the host config
                 String host = Play.application().configuration().getString("pipeline.host");
                 int port = Play.application().configuration().getInt("pipeline.port");
@@ -337,6 +337,7 @@ public class Pipeline extends Controller {
                         // Destroy the pipeline, it's not needed anymore
                         String destroyUrl = "http://"+host+":"+port+"/pipeline/"+pipeline.getGuardianId()+"/destroy";
                         WS.url(destroyUrl).post("");
+                        return ok(results.render(pipeline));
 
                     } else {
                         Logger.error("Results unavailable: Response status "+response.getStatus());
