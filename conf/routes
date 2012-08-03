@@ -85,7 +85,10 @@ GET     /pipeline/:id/classify     controllers.Pipeline.classify(id: Long)
 POST    /pipeline/:id/doClassify    controllers.Pipeline.doClassify(id: Long)
 
 GET     /pipeline/:id/startRun     controllers.Pipeline.startRun(id: Long)
+GET     /pipeline/:id/doStartRun   controllers.Pipeline.doStartRun(id: Long)
 
+GET 	/pipeline/:id/status	   controllers.Pipeline.status(id: Long)
+GET 	/pipeline/:id/progress	   controllers.Pipeline.progress(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
