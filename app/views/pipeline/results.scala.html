@@ -4,5 +4,25 @@
 
 @main("EMPApp: Results") {
     <h1>Results</h1>
-    @pipeline.getResults()
+    <h2>Classes</h2>
+    <br/>
+    <div> 
+        <ul id="averageThumbnails" class="thumbnails">
+        </ul>
+    </div>
+    <div>
+        <ul class="pager">
+          <li id="prev" class="previous disabled" onclick='previousThumbnails()'>
+            <a href="#">&larr; Previous</a>
+          </li>
+          <li id="next" class="next" onclick='nextThumbnails()'>
+            <a href="#">Next &rarr;</a>
+          </li>
+        </ul>
+    </div>
+    <script>
+        results = @Html(pipeline.getResults())
+    </script>
+    <script src="@routes.Assets.at("js/pipeline/results.js")"></script>
+
 }
