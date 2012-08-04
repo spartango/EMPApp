@@ -26,16 +26,22 @@ function calculateProgress(item) {
             (100.0 * item.progress / item.expected) : 0;
 }
 
-function renderProgress(name, percentage) {
+function renderProgress(name, percentage, errors, output, runtime) {
     // Calculate progress
     $('#'+name+'progress').css('width', percentage+'%');
     $('#'+name+'number').text(percentage.toFixed(1)+'%');
     if(percentage >= 100) {
         $('#'+name+'bar').removeClass('active');
         $('#'+name+'bar').addClass('progress-success');
-        return true;
-    } else {
-        return false;
+    }
+    if(errors > 0) {
+        $('#'+name+'errorCount').text(errors);
+        $('#'+name+'bar').addClass('progress-warning');
+        $('#'+name+'error').show('fast');
+    }
+    if(output > 0) {
+      $('#'+name+'outputCount').text(output);
+      $('#'+name+'output').show('fast');
     }
 }
 
@@ -54,7 +60,10 @@ function renderAllProgress(progress) {
             }
         } else {
             var percentage = calculateProgress(progress[key]);
-            renderProgress(key, percentage);
+            var output = progress[key].output;
+            var runtime = progress[key].runtime;
+            var errors = progress[key].errors;
+            renderProgress(key, percentage, errors, output, runtime);
         }
     }
     if(completed) {

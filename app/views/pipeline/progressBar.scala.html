@@ -2,8 +2,23 @@
 
 <div class="row">
 	<div class="span6">
-		<h6 id="@(name+"statusText")" style="float: left">@process</h6>
-	    <h6 id="@(name+"number")" style="float: right">0%</h6>
+		<span style="float: left">
+			<h6>
+				<span id="@(name+"statusText")">@process</span> 
+				<span id="@(name+"error")" style="display: none"> 
+					<span id="@(name+"errorCount")" class="badge badge-important">0</span>
+					Errors
+				</span>
+			</h6>
+	    </span>
+	    <span style="float: right">
+	    	<h6>
+	    		<span id="@(name+"output")" style="display: none">
+	    			<span id="@(name+"outputCount")" class="badge badge-info">0</span> 
+	    		</span>
+	    		<span id="@(name+"number")"> 0%</span>
+	    	</h6>
+		</span>
 	</div>
 </div>
 <div class="row">
